@@ -1,5 +1,8 @@
+.coverage
 *.log
 *.pyc
 
+.pytest_cache
 __pycache__/
+instance/
 venv/
