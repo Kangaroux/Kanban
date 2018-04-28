@@ -27,7 +27,7 @@ class User(BaseModel):
     """
     t = 256
     buflen = 40
-    salt = os.urandom(16)
+    salt = os.urandom(32)
 
     self.password = "argon2,t=%d,buflen=%d$%s$%s" % (t, buflen, 
       b64encode(salt).decode("utf-8"),
