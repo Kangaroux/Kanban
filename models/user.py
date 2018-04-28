@@ -13,7 +13,7 @@ class User(BaseModel):
   username = db.Column(db.String(20), unique=True)
   email = db.Column(db.String(100), unique=True)
 
-  password = db.Column(db.String(100))
+  password = db.Column(db.String(150))
 
 
   def set_password(self, password):
