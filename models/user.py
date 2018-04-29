@@ -42,3 +42,4 @@ class User(BaseModel, db.Model):
       return False
 
     return True
+    

@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField
-from wtforms import validators as v
+from sqlalchemy import func
+from wtforms import StringField, validators as v
 
+from config.app import db
 from models.user import User
 
 
@@ -34,3 +35,16 @@ class CreateUserForm(FlaskForm):
     ])
 
   confirm_password = StringField("confirm_password")
+
+
+  def validate_email(self, field):
+    """ Fails to validate the email if it's already in use """
+    if db.session.query(User.id).filter(
+        func.lower(User.email) == field.data.lower()).scalar() is not None:
+      raise v.ValidationError("Email is already in use")
+
+  def validate_username(self, field):
+    """ Fails to validate the username if it's already in use """
+    if db.session.query(User.id).filter(
+        func.lower(User.username) == field.data.lower()).scalar() is not None:
+      raise v.ValidationError("Username is already taken")
