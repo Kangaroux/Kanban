@@ -15,14 +15,7 @@ class UserAPI(BaseEndpoint):
       return self.error(msg="User does not exist.", code=404)
 
     return self.ok(data={
-      "user": {
-        "id": u.id,
-        "first_name": u.first_name,
-        "last_name": u.last_name,
-        "email": u.email,
-        "username": u.username,
-        "joined": u.created_at.isoformat()
-      }
+      "user": u.serialize(exclude=["updated"])
     })
 
   def post(self):
@@ -32,15 +25,10 @@ class UserAPI(BaseEndpoint):
     if not form.validate():
       return self.form_error(form)
 
-    data = form.data
-    u = User(
-      first_name=data.get("first_name"),
-      last_name=data.get("last_name"),
-      email=data.get("email"),
-      username=data.get("username")
-    )
+    u = User()
+    form.populate_obj(u, exclude=["confirm_password", "password"])
+    u.set_password(form.data["password"])
 
-    u.set_password(data.get("password"))
     db.session.add(u)
     db.session.commit()
 
@@ -53,8 +41,6 @@ class UserAPI(BaseEndpoint):
     if not u:
       return self.error(msg="User does not exist.", code=404)
 
-    # form = 
-
     return self.ok(data={
       "user": {
 
@@ -63,7 +49,15 @@ class UserAPI(BaseEndpoint):
 
   def delete(self, user_id):
     """ Deletes an existing user """
-    pass
+    u = User.query.get(user_id)
+
+    if not u:
+      return self.error(msg="User does not exist.", code=404)
+
+    db.session.delete(u)
+    db.session.commit()
+
+    return self.ok()
 
 
 view = UserAPI.as_view("user")

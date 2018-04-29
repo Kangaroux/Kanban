@@ -8,7 +8,7 @@ from config.app import db
 ph = PasswordHasher(time_cost=32, hash_len=32)
 
 
-class User(BaseModel, db.Model):
+class User(BaseModel, db.Model):  
   first_name = db.Column(db.String(20))
   last_name = db.Column(db.String(20), nullable=True)
 
@@ -16,6 +16,9 @@ class User(BaseModel, db.Model):
   email = db.Column(db.String(100), unique=True)
 
   password = db.Column(db.String(150))
+
+  PRIVATE_FIELDS = ["password"]
+
 
   def __repr__(self):
     return "<User id=%r username=%r email=%r>" % (self.id, self.username, self.email)

@@ -53,7 +53,7 @@ def test_get_existing_user(client, user):
       "last_name": user.last_name,
       "username": user.username,
       "email": user.email,
-      "joined": user.created_at.isoformat()
+      "created": user.created.isoformat()
     }
   }
 
