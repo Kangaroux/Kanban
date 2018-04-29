@@ -35,7 +35,7 @@ def client(app):
 
 @fixture
 def user_data(app):
-  """ Returns some sample data for a suer """
+  """ Returns some sample data for a user """
   return {
     "first_name": "john",
     "last_name": "smith",
@@ -47,6 +47,8 @@ def user_data(app):
 @fixture
 def user(app, user_data):
   """ Returns a fresh user object created from the sample data """
+  from models.user import User
+  
   u = User(**user_data)
   u.set_password(user_data["password"])
 

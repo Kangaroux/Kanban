@@ -18,27 +18,30 @@ class BaseEndpoint(MethodView):
   def get_name(cls):
     return cls.NAME or snake_case(cls.__name__)
 
-  def form_error(self, form, message=None, status_code=400):
+  def form_error(self, form, msg=None, code=400):
     """ Returns a form error response """
-    return self.error({ "fields": form.get_errors() }, message, status_code)
+    return self.error({ "fields": form.get_errors() }, msg, code)
 
-  def error(self, data=None, message=None, status_code=400):
+  def error(self, data=None, msg=None, code=400):
     """ Returns an error response as JSON """
     resp = { "status": "error" }
 
-    if message:
-      resp["message"] = message
+    if msg:
+      resp["msg"] = msg
 
     if data:
       resp = { **resp, **data }
 
-    return make_response(jsonify(resp), status_code)
+    return make_response(jsonify(resp), code)
 
-  def ok(self, message=None):
+  def ok(self, data=None, msg=None):
     """ Returns an OK response """
     resp = { "status": "ok" }
 
-    if message:
-      resp["msg"] = message
+    if msg:
+      resp["msg"] = msg
+
+    if data:
+      resp = { **resp, **data }
 
     return jsonify(resp)

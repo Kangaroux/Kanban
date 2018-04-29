@@ -1,13 +1,11 @@
 from flask import Blueprint
 
-from . import user
+from .user import blueprint as user_bp
 
 
-bp = Blueprint("api", __name__, url_prefix="/api")
+blueprints = (
+  user_bp,
+)
 
-def add_endpoint(prefix, endpoint):
-  bp.add_url_rule("%s/%s" % (prefix, endpoint.get_url()), 
-    view_func=endpoint.as_view(endpoint.get_name()))
-
-# /api/user/
-add_endpoint("/user", user.CreateUser)
+for b in blueprints:
+  b.url_prefix = "/api" + b.url_prefix

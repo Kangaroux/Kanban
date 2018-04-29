@@ -19,7 +19,9 @@ def create_app(test_config=None):
 
   # Register the API routes
   import api
-  app.register_blueprint(api.bp)
+  
+  for bp in api.blueprints:
+    app.register_blueprint(bp)
 
   # Setup the database
   db.init_app(app)
