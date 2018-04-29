@@ -48,7 +48,18 @@ class UserAPI(BaseEndpoint):
 
   def put(self, user_id):
     """ Updates an existing user """
-    pass
+    u = User.query.get(user_id)
+
+    if not u:
+      return self.error(msg="User does not exist.", code=404)
+
+    # form = 
+
+    return self.ok(data={
+      "user": {
+
+      }
+    })
 
   def delete(self, user_id):
     """ Deletes an existing user """

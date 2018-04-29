@@ -13,3 +13,8 @@ class BaseForm(FlaskForm):
         errors[k] = errors[k][0]
 
     return errors
+
+  def add_validators(self, field, *args):
+    """ Adds validators to an existing field by name """
+    f = getattr(self, field)
+    f.validators = [*args] + f.validators
