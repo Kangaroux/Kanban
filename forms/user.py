@@ -1,12 +1,12 @@
-from flask_wtf import FlaskForm
 from sqlalchemy import func
 from wtforms import StringField, validators as v
 
+from .base import BaseForm
 from config.app import db
 from models.user import User
 
 
-class CreateUserForm(FlaskForm):
+class CreateUserForm(BaseForm):
   first_name = StringField("first_name", validators=[
       v.DataRequired(),
       v.Length(max=User.first_name.type.length),

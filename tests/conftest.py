@@ -28,8 +28,29 @@ def app():
   os.close(db_fd)
   os.unlink(db_path)
 
-
 @fixture
 def client(app):
   """ Creates a flask test client """
   return app.test_client()
+
+@fixture
+def user_data(app):
+  """ Returns some sample data for a suer """
+  return {
+    "first_name": "john",
+    "last_name": "smith",
+    "email": "test@test.com",
+    "password": "mysecretpassword",
+    "username": "username123"
+  }.copy()
+
+@fixture
+def user(app, user_data):
+  """ Returns a fresh user object created from the sample data """
+  u = User(**user_data)
+  u.set_password(user_data["password"])
+
+  db.session.add(u)
+  db.session.commit()
+
+  return u

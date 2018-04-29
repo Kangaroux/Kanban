@@ -17,29 +17,18 @@ class User(BaseModel, db.Model):
 
   password = db.Column(db.String(150))
 
-
   def __repr__(self):
     return "<User id=%r username=%r email=%r>" % (self.id, self.username, self.email)
 
   def set_password(self, password):
-    """ Sets the user's new password. This generates a new salt and hashes the
-    password using argon2. The password is then stored in the format:
-
-    <algorithm>[,arg=value, ...]$<salt>$<hash>
-
-    The salt and hash are base 64 encoded when they are stored. The salt is
-    not encoded until after the password has been hashed
-    """
+    """ Hashes the user's password and sets it """
     self.password = ph.hash(password)
 
   def check_password(self, password):
-    """ Checks the given password against the one stored in the database.
-    We're assuming the algorithm is always argon2, though the kwargs may change
-    """
+    """ Returns True if the given password matches the one in the database """
     try:
       ph.verify(self.password, password)
     except:
       return False
 
     return True
-    

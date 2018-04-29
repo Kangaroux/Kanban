@@ -16,7 +16,7 @@ class CreateUser(BaseEndpoint):
     form = CreateUserForm()
 
     if not form.validate():
-      return make_response(jsonify(form.errors), 400)
+      return self.form_error(form)
 
     data = form.data
     u = User(
@@ -30,4 +30,4 @@ class CreateUser(BaseEndpoint):
     db.session.add(u)
     db.session.commit()
 
-    return jsonify({ "status": "ok" })
+    return self.ok()
