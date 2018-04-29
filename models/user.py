@@ -6,7 +6,7 @@ from models.base import BaseModel
 from config.app import db
 
 
-class User(BaseModel):
+class User(BaseModel, db.Model):
   first_name = db.Column(db.String(20))
   last_name = db.Column(db.String(20), nullable=True)
 
@@ -15,6 +15,9 @@ class User(BaseModel):
 
   password = db.Column(db.String(150))
 
+
+  def __repr__(self):
+    return "<User id=%r username=%r email=%r>" % (self.id, self.username, self.email)
 
   def set_password(self, password):
     """ Sets the user's new password. This generates a new salt and hashes the

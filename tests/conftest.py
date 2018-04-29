@@ -2,7 +2,7 @@ import os
 import tempfile
 from pytest import fixture
 
-from config.app import create_app
+from config.app import create_app, db
 
 
 @fixture
@@ -10,7 +10,7 @@ def app():
   db_fd, db_path = tempfile.mkstemp()
 
   app = create_app({
-    "SQLALCHEMY_DATABASE_URI": db_path,
+    "DATABASE": db_path,
     "SQLALCHEMY_TRACK_MODIFICATIONS": False,
     "SECRET_KEY": "dev",
     "SERVER_NAME": "localhost",
@@ -18,8 +18,12 @@ def app():
     "TESTING": True,
   })
 
+  db.init_app(app)
+
   with app.app_context():
+    db.create_all()
     yield app
+    db.drop_all()
 
   os.close(db_fd)
   os.unlink(db_path)

@@ -1,7 +1,8 @@
 import pytest
+from flask import url_for
 
-from flask import url_for, g
 from forms.user import CreateUserForm
+from models.user import User
 
 
 def test_ok(client):
@@ -15,3 +16,11 @@ def test_ok(client):
 
   assert r.get_json() == { "status": "ok" }
   assert r.status_code == 200
+
+  u = User.query.one()
+
+  assert u.first_name == "jesse"
+  assert not u.last_name
+  assert u.username == "username123"
+  assert u.email == "test@test.com"
+  assert u.check_password("mysecretpassword")

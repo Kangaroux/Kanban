@@ -3,7 +3,7 @@ from datetime import datetime
 from config.app import db
 
 
-class BaseModel(db.Model):
+class BaseModel:
   """ Base model class which includes some common fields """
 
   id = db.Column(db.Integer, primary_key=True)
