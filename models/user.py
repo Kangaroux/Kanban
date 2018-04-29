@@ -1,9 +1,11 @@
 import os
-from argon2 import argon2_hash
-from base64 import b64decode, b64encode
+from argon2 import PasswordHasher
 
 from models.base import BaseModel
 from config.app import db
+
+
+ph = PasswordHasher(time_cost=32, hash_len=32)
 
 
 class User(BaseModel, db.Model):
@@ -28,30 +30,15 @@ class User(BaseModel, db.Model):
     The salt and hash are base 64 encoded when they are stored. The salt is
     not encoded until after the password has been hashed
     """
-    t = 256
-    buflen = 40
-    salt = os.urandom(32)
-
-    self.password = "argon2,t=%d,buflen=%d$%s$%s" % (t, buflen, 
-      b64encode(salt).decode("utf-8"),
-      b64encode(argon2_hash(password, salt, t=t, buflen=buflen)).decode("utf-8")
-    )
+    self.password = ph.hash(password)
 
   def check_password(self, password):
     """ Checks the given password against the one stored in the database.
     We're assuming the algorithm is always argon2, though the kwargs may change
     """
-    parts = self.password.split("$")
-    args = parts[0].split(",")[1:]
-    kwargs = {}
+    try:
+      ph.verify(self.password, password)
+    except:
+      return False
 
-    # Extract any keyword arguments
-    for arg in args:
-      k, v = arg.split("=")
-      kwargs[k] = int(v)
-
-    # Hash the password with the same args
-    hashed = b64encode(
-      argon2_hash(password, b64decode(parts[1]), **kwargs)).decode("utf-8")
-
-    return parts[2] == hashed
+    return True
