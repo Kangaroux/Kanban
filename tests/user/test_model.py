@@ -22,7 +22,6 @@ def test_password_nomatch():
 def test_unique_salt():
   """ Tests that passwords are generated with a new salt """
   u = User()
-
   u.set_password("secretpass")
   p1 = u.password.split("$")
 
