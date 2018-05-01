@@ -14,9 +14,7 @@ class UserAPI(BaseEndpoint):
     if not u:
       return self.error(msg="User does not exist.", code=404)
 
-    return self.ok(data={
-      "user": u.serialize(exclude=["updated"])
-    })
+    return self.ok(data={ "user": u.serialize(exclude=["updated"]) })
 
   def post(self):
     """ Adds a new user """
@@ -41,11 +39,7 @@ class UserAPI(BaseEndpoint):
     if not u:
       return self.error(msg="User does not exist.", code=404)
 
-    return self.ok(data={
-      "user": {
-
-      }
-    })
+    return self.ok(data={ "user": u.serialize(exclude=["updated"]) })
 
   def delete(self, user_id):
     """ Deletes an existing user """

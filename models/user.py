@@ -1,8 +1,8 @@
 import os
 from argon2 import PasswordHasher
 
-from models.base import BaseModel
 from config.app import db
+from models.base import BaseModel
 
 
 ph = PasswordHasher(time_cost=32, hash_len=32)
