@@ -1,5 +1,3 @@
-from flask import Blueprint, jsonify, make_response, request
-
 from api.base import BaseEndpoint
 from config.app import db
 from forms.user import CreateUserForm
@@ -52,11 +50,3 @@ class UserAPI(BaseEndpoint):
     db.session.commit()
 
     return self.ok()
-
-
-view = UserAPI.as_view("user")
-blueprint = Blueprint("api", __name__, url_prefix="/user")
-
-blueprint.add_url_rule("/", view_func=view, methods=["POST"])
-blueprint.add_url_rule("/<int:user_id>", view_func=view,
-  methods=["GET", "PUT", "DELETE"])

@@ -7,17 +7,6 @@ from lib.string import snake_case
 class BaseEndpoint(MethodView):
   """ Base API view which helps with routing and error handling """
 
-  URL = "myendpoint"
-  NAME = None
-
-  @classmethod
-  def get_url(cls):
-    return cls.URL
-
-  @classmethod
-  def get_name(cls):
-    return cls.NAME or snake_case(cls.__name__)
-
   def form_error(self, form, msg=None, code=400):
     """ Returns a form error response """
     return self.error({ "fields": form.get_errors() }, msg, code)

@@ -1,7 +1,7 @@
 from sqlalchemy import func
 from wtforms import StringField, validators as v
 
-from .base import BaseForm
+from forms.base import BaseForm
 from config.app import db
 from models.user import User
 
