@@ -4,7 +4,7 @@ from config.app import db
 from models.base import BaseModel
 
 
-class Ticket(BaseModel, db.Model):
+class Task(BaseModel, db.Model):
   class Type(enum.Enum):
     feature = 0
     bug = 1
@@ -19,7 +19,7 @@ class Ticket(BaseModel, db.Model):
 
 
   def __repr__(self):
-    return "<Ticket id=%r name=%r>" % (self.id, self.name)
+    return "<Task id=%r name=%r>" % (self.id, self.name)
 
   @property
   def type(self):
