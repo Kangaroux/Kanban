@@ -18,8 +18,8 @@ def create_app(test_config=None):
   os.makedirs(app.instance_path, exist_ok=True)
 
   # Register the API routes
-  from api.urls import urls
-  urls.register(app)
+  from api.routes import routes
+  routes.register(app)
 
   # Setup the database
   db.init_app(app)

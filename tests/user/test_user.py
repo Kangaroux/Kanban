@@ -43,7 +43,7 @@ def test_add_duplicate_user(client, user_data):
 
 def test_get_existing_user(client, user):
   """ Test getting a user's information """
-  r = client.get("%s%d" % (url_for("api.user"),  user.id))
+  r = client.get(url_for("api.user", user_id=user.id))
   assert r.status_code == 200
   assert r.get_json() == {
     "status": "ok",
@@ -59,7 +59,7 @@ def test_get_existing_user(client, user):
 
 def test_get_invalid_user(client):
   """ Test trying to get info for a user who does not exist """
-  r = client.get("%s%d" % (url_for("api.user"),  1234))
+  r = client.get(url_for("api.user", user_id=1234))
   assert r.status_code == 404
   assert r.get_json() == {
     "status": "error",
