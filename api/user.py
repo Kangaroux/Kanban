@@ -1,6 +1,6 @@
 from flaskrouting import page, var
 
-from api.base import BaseEndpoint, ErrorResponse
+from api.base import *
 from config.app import db
 from forms.user import CreateUserForm
 from models.user import User
@@ -27,7 +27,7 @@ class UserAPI(BaseEndpoint):
     db.session.add(u)
     db.session.commit()
 
-    return self.ok()
+    return self.ok(data={ "user_id": u.id })
 
   def patch(self, user_id):
     """ Updates an existing user """

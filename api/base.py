@@ -1,8 +1,13 @@
 from flask import jsonify, make_response
 from flask.views import MethodView
 
+from config import settings
+from lib import response_codes as http
 from lib.response import ErrorResponse
 from lib.string import snake_case
+
+
+__all__ = ["http", "BaseEndpoint", "ErrorResponse"]
 
 
 class BaseEndpoint(MethodView):
@@ -21,12 +26,12 @@ class BaseEndpoint(MethodView):
       return self.error(msg=e.msg, data=e.data, code=e.code)
 
   @classmethod
-  def form_error(cls, form, msg=None, code=400):
+  def form_error(cls, form, msg=None, code=http.BAD_REQUEST):
     """ Returns a form error response """
     return cls.error({ "fields": form.get_errors() }, msg, code)
 
   @staticmethod
-  def error(data=None, msg=None, code=400):
+  def error(data=None, msg=None, code=http.BAD_REQUEST):
     """ Returns an error response as JSON """
     resp = { "status": "error" }
 
@@ -39,7 +44,7 @@ class BaseEndpoint(MethodView):
     return make_response(jsonify(resp), code)
 
   @staticmethod
-  def ok(data=None, msg=None, code=200):
+  def ok(data=None, msg=None, code=http.OK):
     """ Returns an OK response """
     resp = { "status": "ok" }
 

@@ -49,13 +49,15 @@ class PasswordMixin:
 class ConfirmPasswordMixin(PasswordMixin, BaseForm):
   """ Mixin for confirming a password """
 
-  confirm_password = StringField("confirm_password")
+  confirm_password = StringField("confirm_password", validators=[
+      v.DataRequired()
+    ])
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
 
     self.add_validators("password",
-      v.EqualTo("confirm_password", message="Passwords must match"))
+      v.EqualTo("confirm_password", message="Passwords must match."))
 
 
 class UniqueMixin:
@@ -64,12 +66,12 @@ class UniqueMixin:
   def validate_email(self, field):
     """ Fails to validate the email if it's already in use """
     if db.session.query(User.id).filter_by(email=field.data).scalar() is not None:
-      raise v.ValidationError("Email is already in use")
+      raise v.ValidationError("Email is already in use.")
 
   def validate_username(self, field):
     """ Fails to validate the username if it's already in use """
     if db.session.query(User.id).filter(User.username.ilike(field.data)).scalar() is not None:
-      raise v.ValidationError("Username is already taken")
+      raise v.ValidationError("Username is already taken.")
 
 
 class CreateUserForm(ConfirmPasswordMixin, UniqueMixin, BaseUserForm):

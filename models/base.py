@@ -3,6 +3,7 @@ from datetime import datetime
 from sqlalchemy import inspect
 
 from config.app import db
+from lib import response_codes as http
 from lib.response import ErrorResponse
 
 
@@ -34,7 +35,7 @@ class BaseModel:
       msg = "%s does not exist." % cls.__name__
 
     if not obj:
-      raise ErrorResponse(msg=msg, code=404)
+      raise ErrorResponse(msg=msg, code=http.NOT_FOUND)
 
     return obj
 

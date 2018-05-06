@@ -29,6 +29,18 @@ class BaseForm(FlaskForm):
     f = getattr(self, field)
     f.validators = [*args] + f.validators
 
+  def set_validators(self, field, *args):
+    """ Sets the validators to an existing field by name. This overwrites any
+    existing validators
+    """
+    f = getattr(self, field)
+    f.validators = [*args]
+
+  def clear_validators(self, field):
+    """ Clears any existing validators on a field by name """
+    f = getattr(self, field)
+    f.validators = []
+
   def populate_obj(self, obj, exclude=None, only=None):
     """ Populates an object with the form's data. Also accepts a list of
     fields to exclude or a list of fields to only populate with

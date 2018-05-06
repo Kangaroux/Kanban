@@ -24,4 +24,7 @@ def create_app(test_config=None):
   # Setup the database
   db.init_app(app)
 
+  with app.app_context():
+    db.create_all()
+
   return app

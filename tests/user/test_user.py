@@ -2,6 +2,7 @@ import pytest
 from flask import url_for
 
 from forms.user import CreateUserForm
+from lib import response_codes as http
 from models.user import User
 
 
@@ -13,11 +14,10 @@ def test_add_user(client, user_data):
   d["confirm_password"] = d["password"]
 
   r = client.post(url_for("api.user"), json=d)
-
-  assert r.get_json() == { "status": "ok" }
-  assert r.status_code == 200
-
   u = User.query.first()
+
+  assert r.get_json() == { "status": "ok", "user_id": u.id }
+  assert r.status_code == http.OK
 
   assert u.first_name == d["first_name"]
   assert not u.last_name
@@ -36,15 +36,15 @@ def test_add_duplicate_user(client, user_data):
   assert r.get_json() == {
     "status": "error",
     "fields": {
-      "email": "Email is already in use",
-      "username": "Username is already taken"
+      "email": "Email is already in use.",
+      "username": "Username is already taken."
     }
   }
 
 def test_get_existing_user(client, user):
   """ Test getting a user's information """
   r = client.get(url_for("api.user", user_id=user.id))
-  assert r.status_code == 200
+  assert r.status_code == http.OK
   assert r.get_json() == {
     "status": "ok",
     "user": {
