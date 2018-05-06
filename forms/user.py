@@ -1,6 +1,7 @@
 from sqlalchemy import func
 from wtforms import StringField, validators as v
 
+from forms import filters as f
 from forms.base import BaseForm
 from config.app import db
 from models.user import User
@@ -11,19 +12,30 @@ class BaseUserForm(BaseForm):
 
   first_name = StringField("first_name", validators=[
       v.Length(max=User.first_name.type.length),
+    ], filters=[
+      f.strip
     ])
 
   last_name = StringField("last_name", validators=[
       v.Length(max=User.last_name.type.length),
+    ], filters=[
+      f.strip
     ])
 
   username = StringField("username", validators=[
       v.Length(min=2, max=User.username.type.length),
+    ], filters=[
+      f.strip
     ])
 
+  # To speed up queries a little bit we'll always lowercase any incoming emails
+  # so we don't need to do an ILIKE clause in the lookup
   email = StringField("email", validators=[
       v.Email(),
       v.Length(max=User.email.type.length),
+    ], filters=[
+      f.strip,
+      f.lower
     ])
 
 
@@ -43,14 +55,12 @@ class UniqueMixin:
 
   def validate_email(self, field):
     """ Fails to validate the email if it's already in use """
-    if db.session.query(User.id).filter(
-        func.lower(User.email) == field.data.lower()).scalar() is not None:
+    if db.session.query(User.id).filter_by(email=field.data).scalar() is not None:
       raise v.ValidationError("Email is already in use")
 
   def validate_username(self, field):
     """ Fails to validate the username if it's already in use """
-    if db.session.query(User.id).filter(
-        func.lower(User.username) == field.data.lower()).scalar() is not None:
+    if db.session.query(User.id).filter(User.username.ilike(field.data)).scalar() is not None:
       raise v.ValidationError("Username is already taken")
 
 

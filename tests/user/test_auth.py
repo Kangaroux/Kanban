@@ -3,9 +3,12 @@ from flask import url_for
 from forms.auth import LoginForm
 
 
-def test_login(client):
+def test_login(client, user, user_data):
   data = {
-    "email": "test@test.com",
-    "password": "password123"
+    "email": user.email,
+    "password": user_data["password"]
   }
-  client.post(url_for("api.auth"), json=data)
+
+  r = client.post(url_for("api.auth"), json=data)
+  
+  assert r.status_code == 200
