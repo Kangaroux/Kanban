@@ -4,6 +4,7 @@ from flask import url_for
 from forms.user import CreateUserForm
 from lib import response_codes as http
 from models.user import User
+from tests.conftest import create_user
 
 
 def test_add_user(client, user_data):
@@ -41,8 +42,10 @@ def test_add_duplicate_user(client, user_data):
     }
   }
 
-def test_get_existing_user(client, user):
+def test_get_existing_user(client, user_data):
   """ Test getting a user's information """
+  user = create_user(user_data)
+
   r = client.get(url_for("api.user", user_id=user.id))
   assert r.status_code == http.OK
   assert r.get_json() == {

@@ -32,7 +32,13 @@ class AuthAPI(BaseEndpoint):
 
     return self.ok()
 
+  def delete(self):
+    was_logged_in = "user_id" in session
+    session.clear()
+
+    return self.ok(data={ "was_logged_in": was_logged_in })
+
 
 routes = [
-  page("", AuthAPI, methods=["GET", "POST"])
+  page("", AuthAPI, methods=["GET", "POST", "DELETE"])
 ]

@@ -1,8 +1,38 @@
 import os
 import tempfile
+
+from flask import url_for
+from models.user import User
+from lib import response_codes as http
 from pytest import fixture
 
 from config.app import create_app, db
+
+
+def login(client, email, password):
+  return client.post(url_for("api.auth"), json={
+    "email": email,
+    "password": password
+  })
+
+def logout(client):
+  return client.delete(url_for("api.auth"))
+
+def create_user(user_data):
+  """ Creates and returns a new user """
+  u = User(**user_data)
+  u.set_password(user_data["password"])
+
+  db.session.add(u)
+  db.session.commit()
+
+  return u
+
+def create_auth_user(client, user_data):
+  """ Creates, logs in, and returns a new user """
+  create_user(user_data)
+  login(client, user_data["email"], user_data["password"])
+  return User.query.filter_by(email=user_data["email"]).first()
 
 
 @fixture
@@ -28,10 +58,11 @@ def app():
 @fixture
 def client(app):
   """ Creates a flask test client """
-  return app.test_client()
+  with app.test_client() as c:
+    yield c
 
 @fixture
-def user_data(app):
+def user_data():
   """ Returns some sample data for a user """
   return {
     "first_name": "john",
@@ -40,16 +71,3 @@ def user_data(app):
     "password": "mysecretpassword",
     "username": "username123"
   }.copy()
-
-@fixture
-def user(app, user_data):
-  """ Returns a fresh user object created from the sample data """
-  from models.user import User
-  
-  u = User(**user_data)
-  u.set_password(user_data["password"])
-
-  db.session.add(u)
-  db.session.commit()
-
-  return u
