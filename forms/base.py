@@ -2,6 +2,16 @@ from flask_wtf import FlaskForm
 
 
 class BaseForm(FlaskForm):
+  FIELDS = []
+
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+
+    # Remove any fields which are not in the FIELDS list
+    if self.FIELDS:
+      for f in set(self._fields) - set(self.FIELDS):
+        del self[f]
+
   def get_errors(self):
     """ Returns any form errors as a dictionary but ensures that each field's
     error message is a string and not a list

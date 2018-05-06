@@ -1,9 +1,8 @@
 from wtforms import StringField, validators as v
 
 from forms import filters as f
-from forms.base import BaseForm
+from forms.user import BaseUserForm, PasswordMixin
 
 
-class LoginForm(BaseForm):
-  email = StringField("email", validators=[v.DataRequired()], filters=[f.strip, f.lower])
-  password = StringField("password", validators=[v.DataRequired()])
+class LoginForm(PasswordMixin, BaseUserForm):
+  FIELDS = ["email", "password"]

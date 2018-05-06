@@ -40,14 +40,22 @@ class BaseUserForm(BaseForm):
 
 
 class PasswordMixin:
-  """ Mixin for adding password fields to a form """
+  """ Mixing for a password """
 
   password = StringField("password", validators=[
       v.Length(min=8, max=100),
-      v.EqualTo("confirm_password", message="Passwords must match"),
     ])
 
+class ConfirmPasswordMixin(PasswordMixin, BaseForm):
+  """ Mixin for confirming a password """
+
   confirm_password = StringField("confirm_password")
+
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+
+    self.add_validators("password",
+      v.EqualTo("confirm_password", message="Passwords must match"))
 
 
 class UniqueMixin:
@@ -64,7 +72,7 @@ class UniqueMixin:
       raise v.ValidationError("Username is already taken")
 
 
-class CreateUserForm(PasswordMixin, UniqueMixin, BaseUserForm):
+class CreateUserForm(ConfirmPasswordMixin, UniqueMixin, BaseUserForm):
   """ Form used when creating users. Marks several fields as required """
 
   def __init__(self, *args, **kwargs):

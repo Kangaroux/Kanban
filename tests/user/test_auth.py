@@ -10,5 +10,5 @@ def test_login(client, user, user_data):
   }
 
   r = client.post(url_for("api.auth"), json=data)
-  
+
   assert r.status_code == 200
