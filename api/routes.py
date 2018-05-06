@@ -1,19 +1,12 @@
 from flaskrouting import path, page, var
 
-from .user import UserAPI
-from .auth import AuthAPI
+from .auth import routes as auth_routes
+from .user import routes as user_routes
 
 
 routes = (
   path("api", [
-    path("auth", [
-      page("", AuthAPI, methods=["POST"]),
-    ]),
-    path("user", [
-      page("", UserAPI, methods=["POST"]),
-      var("<int:user_id>", [
-        page("", UserAPI, methods=["GET", "PUT", "DELETE"])
-      ]),
-    ])
+    path("auth", auth_routes),
+    path("user", user_routes),
   ])
 )

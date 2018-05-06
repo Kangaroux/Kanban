@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flaskrouting import page
 
 from api.base import BaseEndpoint
 from forms.auth import LoginForm
@@ -19,12 +19,7 @@ class AuthAPI(BaseEndpoint):
 
     return self.ok()
 
-    # u = User.objects.get(email=form.email.data)
 
-    # if not u or not u.check_password(form.password.data)
-
-
-view = AuthAPI.as_view("auth")
-blueprint = Blueprint("auth", __name__, url_prefix="/auth")
-
-blueprint.add_url_rule("/", view_func=view, methods=["POST"])
+routes = [
+  page("", AuthAPI, methods=["POST"])
+]

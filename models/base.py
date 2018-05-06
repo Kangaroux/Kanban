@@ -3,6 +3,7 @@ from datetime import datetime
 from sqlalchemy import inspect
 
 from config.app import db
+from lib.response import ErrorResponse
 
 
 class BaseModel:
@@ -24,6 +25,18 @@ class BaseModel:
     except AttributeError:
       cls.fields = set(col.key for col in inspect(cls).attrs)
       return cls.fields
+
+  @classmethod
+  def get_or_404(cls, pk, msg=None):
+    obj = cls.query.get(pk)
+
+    if not msg:
+      msg = "%s does not exist." % cls.__name__
+
+    if not obj:
+      raise ErrorResponse(msg=msg, code=404)
+
+    return obj
 
   def serialize(self, exclude=None, only=None):
     """ Serializes the model into a dict. Also accepts a list of fields to

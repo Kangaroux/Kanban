@@ -1,4 +1,6 @@
-from api.base import BaseEndpoint
+from flaskrouting import page, var
+
+from api.base import BaseEndpoint, ErrorResponse
 from config.app import db
 from forms.user import CreateUserForm
 from models.user import User
@@ -7,10 +9,7 @@ from models.user import User
 class UserAPI(BaseEndpoint):
   def get(self, user_id):
     """ Returns a user's info """
-    u = User.query.get(user_id)
-
-    if not u:
-      return self.error(msg="User does not exist.", code=404)
+    u = User.get_or_404(user_id)
 
     return self.ok(data={ "user": u.serialize(exclude=["updated"]) })
 
@@ -30,23 +29,25 @@ class UserAPI(BaseEndpoint):
 
     return self.ok()
 
-  def put(self, user_id):
+  def patch(self, user_id):
     """ Updates an existing user """
-    u = User.query.get(user_id)
-
-    if not u:
-      return self.error(msg="User does not exist.", code=404)
+    u = User.get_or_404(user_id)
 
     return self.ok(data={ "user": u.serialize(exclude=["updated"]) })
 
   def delete(self, user_id):
     """ Deletes an existing user """
-    u = User.query.get(user_id)
-
-    if not u:
-      return self.error(msg="User does not exist.", code=404)
+    u = User.get_or_404(user_id)
 
     db.session.delete(u)
     db.session.commit()
 
     return self.ok()
+
+
+routes = [
+  page("", UserAPI, methods=["POST"]),
+  var("<int:user_id>", [
+    page("", UserAPI, methods=["GET", "PATCH", "DELETE"])
+  ]),
+]
