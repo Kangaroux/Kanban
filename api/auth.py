@@ -4,6 +4,7 @@ from flaskrouting import page
 
 from api.base import *
 from forms.auth import LoginForm
+from lib import auth
 from models.user import User
 
 
@@ -28,13 +29,14 @@ class AuthAPI(BaseEndpoint):
     if not u or not u.check_password(form.password.data):
       return self.error(msg="Email or password is incorrect.", code=http.BAD_REQUEST)
 
-    session["user_id"] = u.id
+    auth.login(u)
 
     return self.ok()
 
   def delete(self):
     was_logged_in = "user_id" in session
-    session.clear()
+
+    auth.logout()
 
     return self.ok(data={ "was_logged_in": was_logged_in })
 

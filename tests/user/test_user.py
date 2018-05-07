@@ -1,10 +1,10 @@
 import pytest
-from flask import url_for
+from flask import session, url_for
 
 from forms.user import CreateUserForm
 from lib import response_codes as http
 from models.user import User
-from tests.conftest import create_user
+from tests.conftest import create_auth_user, create_user
 
 
 def test_add_user(client, user_data):
@@ -68,3 +68,15 @@ def test_get_invalid_user(client):
     "status": "error",
     "msg": "User does not exist."
   }
+
+def test_login_required(client):
+  assert client.delete(url_for("api.user", user_id=1234)).status_code == http.NO_AUTH
+
+def test_delete_user(client, user_data):
+  """ Test deleting a user """
+  user = create_auth_user(client, user_data)
+  r = client.delete(url_for("api.user", user_id=user.id))
+
+  # Since we deleted our account we should have been logged out
+  assert r.status_code == http.OK
+  assert "user_id" not in session
