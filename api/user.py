@@ -4,6 +4,7 @@ from flaskrouting import page, var
 from api.base import *
 from config.app import db
 from forms.user import CreateUserForm
+from lib import auth
 from lib.auth import login_required
 from models.user import User
 
@@ -45,6 +46,8 @@ class UserAPI(BaseEndpoint):
 
     db.session.delete(u)
     db.session.commit()
+
+    auth.logout()
 
     return self.ok()
 

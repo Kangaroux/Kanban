@@ -50,7 +50,6 @@ def app():
 
   with app.app_context():
     yield app
-    db.drop_all()
 
   os.close(db_fd)
   os.unlink(db_path)
@@ -58,8 +57,7 @@ def app():
 @fixture
 def client(app):
   """ Creates a flask test client """
-  with app.test_client() as c:
-    yield c
+  return app.test_client()
 
 @fixture
 def user_data():
