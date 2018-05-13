@@ -5,11 +5,10 @@ from api.base import *
 from config.app import db
 from forms.user import CreateUserForm
 from lib import auth
-from lib.auth import login_required
 from models.user import User
 
 
-@login_required(["DELETE"])
+@auth.login_required(["DELETE"])
 class UserAPI(BaseEndpoint):
   def get(self, user_id):
     """ Returns a user's info """
