@@ -1,18 +1,65 @@
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SECRET_KEY = "fy^pkvgi7e62&#8+2e0jq=e3%!$3)(5(&tkf*^r7d)5kyx0$pq"
+DEBUG = True
 
-PROD = bool(os.environ.get("PROD", False))
-DEVELOPMENT = not PROD
-DEBUG = DEVELOPMENT
+ALLOWED_HOSTS = []
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "dev")
-SERVER_NAME = os.environ.get("HOST")
+ROOT_URLCONF = "config.urls"
+WSGI_APPLICATION = "config.wsgi.application"
 
-SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(BASE_DIR, "db.sqlite3")
-SQLALCHEMY_TRACK_MODIFICATIONS = False
+INSTALLED_APPS = [
+  "django.contrib.admin",
+  "django.contrib.auth",
+  "django.contrib.contenttypes",
+  "django.contrib.sessions",
+  "django.contrib.messages",
+  "django.contrib.staticfiles",
+  "api",
+]
 
-WTF_CSRF_ENABLED = False
+MIDDLEWARE = [
+  "django.middleware.security.SecurityMiddleware",
+  "django.contrib.sessions.middleware.SessionMiddleware",
+  "django.middleware.common.CommonMiddleware",
+  "django.middleware.csrf.CsrfViewMiddleware",
+  "django.contrib.auth.middleware.AuthenticationMiddleware",
+  "django.contrib.messages.middleware.MessageMiddleware",
+  "django.middleware.clickjacking.XFrameOptionsMiddleware",
+]
 
-SESSION_COOKIE_HTTPONLY = not DEBUG
-SESSION_COOKIE_SECURE = not DEBUG
+TEMPLATES = [
+  {
+    "BACKEND": "django.template.backends.django.DjangoTemplates",
+    "DIRS": [ os.path.join(BASE_DIR, "assets", "templates") ],
+    "APP_DIRS": True,
+    "OPTIONS": {
+      "context_processors": [
+        "django.template.context_processors.debug",
+        "django.template.context_processors.request",
+        "django.contrib.auth.context_processors.auth",
+        "django.contrib.messages.context_processors.messages",
+      ],
+    },
+  },
+]
+
+
+DATABASES = {
+  "default": {
+    "ENGINE": "django.db.backends.sqlite3",
+    "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+  }
+}
+
+LANGUAGE_CODE = "en-us"
+TIME_ZONE = "UTC"
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
+
+STATICFILES_DIRS = [
+  os.path.join(BASE_DIR, "build")
+]
+STATIC_URL = "/static/"

@@ -1,14 +1,10 @@
-from flask import session
-
-from flaskrouting import page
-
 from api.base import *
 from forms.auth import LoginForm
 from lib import auth
 from models.user import User
 
 
-class AuthAPI(BaseEndpoint):
+class AuthAPI(BaseAPIEndpoint):
   """ Authenticates the user and returns a new session token """
 
   def post(self):
@@ -33,8 +29,3 @@ class AuthAPI(BaseEndpoint):
     auth.logout()
 
     return self.ok(data={ "was_logged_in": was_logged_in })
-
-
-routes = [
-  page("", AuthAPI, methods=["POST", "DELETE"])
-]
