@@ -1,15 +1,36 @@
-from flask import session
-from flaskrouting import page, var
-
-from api.base import *
-from config.app import db
-from forms.user import CreateUserForm
-from lib import auth
-from models.user import User
+from .forms import CreateUserForm, LoginForm
+from .models import User
+from lib.views import APIView
 
 
-@auth.login_required(["DELETE"])
-class UserAPI(BaseEndpoint):
+class AuthAPI(APIView):
+  """ Authenticates the user and returns a new session token """
+
+  def post(self):
+    """ Validates a user's username and password and returns a new token """
+    form = LoginForm()
+
+    if not form.is_valid():
+      return self.form_error(form)
+
+    u = User.objects.filter(email=form.email.data).first()
+
+    if not u or not u.check_password(form.password.data):
+      return self.error(msg="Email or password is incorrect.", code=http.BAD_REQUEST)
+
+    auth.login(u)
+
+    return self.ok()
+
+  def delete(self):
+    was_logged_in = "user_id" in session
+
+    auth.logout()
+
+    return self.ok(data={ "was_logged_in": was_logged_in })
+
+
+class UserAPI(APIView):
   def get(self, user_id):
     """ Returns a user's info """
     u = User.get_or_404(user_id)
@@ -20,7 +41,7 @@ class UserAPI(BaseEndpoint):
     """ Adds a new user """
     form = CreateUserForm()
 
-    if not form.validate():
+    if not form.is_valid():
       return self.form_error(form)
 
     u = User()
@@ -49,11 +70,3 @@ class UserAPI(BaseEndpoint):
     auth.logout()
 
     return self.ok()
-
-
-routes = [
-  page("", UserAPI, methods=["POST"]),
-  var("<int:user_id>", [
-    page("", UserAPI, methods=["GET", "DELETE"])
-  ]),
-]

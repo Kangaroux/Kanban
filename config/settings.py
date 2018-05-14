@@ -9,6 +9,8 @@ ALLOWED_HOSTS = []
 ROOT_URLCONF = "config.urls"
 WSGI_APPLICATION = "config.wsgi.application"
 
+AUTH_USER_MODEL = "user.User"
+
 INSTALLED_APPS = [
   "django.contrib.admin",
   "django.contrib.auth",
@@ -16,7 +18,9 @@ INSTALLED_APPS = [
   "django.contrib.sessions",
   "django.contrib.messages",
   "django.contrib.staticfiles",
-  "api",
+
+  "project"
+  "user",
 ]
 
 MIDDLEWARE = [
@@ -45,6 +49,9 @@ TEMPLATES = [
   },
 ]
 
+PASSWORD_HASHERS = [
+  "django.contrib.auth.hashers.Argon2PasswordHasher",
+]
 
 DATABASES = {
   "default": {
