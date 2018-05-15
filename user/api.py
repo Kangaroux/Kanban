@@ -1,43 +1,51 @@
+from django.contrib.auth import authenticate, login, logout
+
 from .forms import CreateUserForm, LoginForm
 from .models import User
 from lib.views import APIView
 
 
 class AuthAPI(APIView):
-  """ Authenticates the user and returns a new session token """
+  """ Authenticates the user """
 
-  def post(self):
-    """ Validates a user's username and password and returns a new token """
-    form = LoginForm()
+  def post(self, request):
+    """ Logs a user in """
+    form = LoginForm(request.POST)
 
     if not form.is_valid():
-      return self.form_error(form)
+      return self.form_error(form.errors)
 
-    u = User.objects.filter(email=form.email.data).first()
+    data = form.cleaned_data
+    user = authenticate(email=data["email"], password=data["password"])
 
-    if not u or not u.check_password(form.password.data):
+    if not user:
       return self.error(msg="Email or password is incorrect.", code=http.BAD_REQUEST)
 
-    auth.login(u)
+    login(request, user)
 
     return self.ok()
 
-  def delete(self):
-    was_logged_in = "user_id" in session
+  def delete(self, request):
+    """ Logs a user out """
+    logout(request)
 
-    auth.logout()
-
-    return self.ok(data={ "was_logged_in": was_logged_in })
+    return self.ok()
 
 
 class UserAPI(APIView):
-  def get(self, user_id):
+  def user_does_not_exist(self):
+    return self.error("User does not exist.")
+
+  def get(self, request, user_id):
     """ Returns a user's info """
-    u = User.get_or_404(user_id)
+    try:
+      user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+      return self.user_does_not_exist()
 
     return self.ok(data={ "user": u.serialize(exclude=["updated"]) })
 
-  def post(self):
+  def post(self, request):
     """ Adds a new user """
     form = CreateUserForm()
 
@@ -59,7 +67,7 @@ class UserAPI(APIView):
 
   #   return self.ok(data={ "user": u.serialize(exclude=["updated"]) })
 
-  def delete(self, user_id):
+  def delete(self, request, user_id):
     """ Deletes an existing user """
     u = User.get_or_404(user_id)
     delete_self = session["user_id"] == u.id
