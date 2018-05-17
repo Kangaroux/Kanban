@@ -67,12 +67,14 @@ class UserAPI(APIView):
 
   def delete(self, request, user_id):
     """ Deletes an existing user """
-    u = User.get_or_404(user_id)
-    delete_self = session["user_id"] == u.id
+    try:
+      user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+      return self.user_does_not_exist()
 
-    db.session.delete(u)
-    db.session.commit()
+    if user.id == request.user.id:
+      logout(request)
 
-    auth.logout()
+    user.delete()
 
     return self.ok()

@@ -69,3 +69,18 @@ class TestUserAPI(TestCase):
       "username": "firstlast"
     })
     self.assertTrue(user.check_password("qweasd123"))
+
+  def test_delete_nonexistent_user(self):
+    # Delete nonexistent user
+    resp = self.client.delete(reverse("user:user", args=[12345]))
+
+    self.assertEqual(resp.status_code, 400)
+    self.assertEqual(resp.json()["msg"], "User does not exist.")
+
+  def test_delete_user(self):
+    # Delete user
+    self.client.login(username=self.u.email, password=self.u.raw_password)
+
+    resp = self.client.delete(reverse("user:user", args=[self.u.id]))
+    self.assertEqual(resp.status_code, 200)
+    self.assertTrue("_auth_user_id" not in self.client.session)

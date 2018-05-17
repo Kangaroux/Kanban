@@ -28,6 +28,8 @@ class Serializable:
 
       if isinstance(data[f], datetime):
         data[f] = timezone.localtime(data[f]).isoformat()
+      elif isinstance(data[f], models.Model):
+        data[f] = data[f].id
 
     return data
 
