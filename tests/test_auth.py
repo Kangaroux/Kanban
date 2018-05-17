@@ -16,16 +16,18 @@ class TestAuthAPI(TestCase):
     resp = self.client.post(reverse("user:auth"))
 
     self.assertEqual(resp.status_code, 400)
+    self.assertEqual(resp.json()["msg"], "Some fields are missing or incorrect.")
     self.assertTrue("email" in resp.json()["fields"])
     self.assertTrue("password" in resp.json()["fields"])
 
     # Bad email
     resp = self.client.post(reverse("user:auth"), {
-      "email": "bad@email",
+      "email": "bad@email.com",
       "password": "password123"
     })
 
     self.assertEqual(resp.status_code, 400)
+    self.assertEqual(resp.json()["msg"], "Email or password is incorrect.")
 
     # Bad password
     resp = self.client.post(reverse("user:auth"), {
@@ -34,6 +36,7 @@ class TestAuthAPI(TestCase):
     })
 
     self.assertEqual(resp.status_code, 400)
+    self.assertEqual(resp.json()["msg"], "Email or password is incorrect.")
 
     # Good login
     resp = self.client.post(reverse("user:auth"), {

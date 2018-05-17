@@ -14,7 +14,7 @@ class Serializable:
     if only and exclude:
       raise ValueError("Both `only` and `exclude` cannot be used for serializing")
 
-    fields = self.SERIALIZE_FIELDS
+    fields = set(self.SERIALIZE_FIELDS)
     data = {}
 
     if only:

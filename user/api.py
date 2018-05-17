@@ -43,23 +43,21 @@ class UserAPI(APIView):
     except User.DoesNotExist:
       return self.user_does_not_exist()
 
-    return self.ok(data={ "user": u.serialize(exclude=["updated"]) })
+    return self.ok(data={ "user": user.serialize() })
 
   def post(self, request):
     """ Adds a new user """
-    form = CreateUserForm()
+    form = CreateUserForm(request.POST)
 
     if not form.is_valid():
       return self.form_error(form)
 
-    u = User()
-    form.populate_obj(u, exclude=["confirm_password", "password"])
-    u.set_password(form.data["password"])
+    data = form.cleaned_data
+    del data["confirm_password"]
 
-    db.session.add(u)
-    db.session.commit()
+    user = User.objects.create_user(**data)
 
-    return self.ok(data={ "user_id": u.id })
+    return self.ok(data={ "user_id": user.id })
 
   # def patch(self, user_id):
   #   """ Updates an existing user """

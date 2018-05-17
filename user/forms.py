@@ -13,10 +13,16 @@ class CreateUserForm(BaseUserForm):
   password = forms.CharField(min_length=8, max_length=100, strip=False)
   confirm_password = forms.CharField(strip=False)
 
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.fields["first_name"].required = True
+
   def clean(self):
     d = self.cleaned_data
+    password = d.get("password")
+    password2 = d.get("confirm_password")
 
-    if d.get("password") != d.get("confirm_password"):
+    if password and password != password2:
       self.add_error("confirm_password", "Passwords must match")
 
 
