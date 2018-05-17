@@ -12,6 +12,13 @@ class TestAuthAPI(TestCase):
     self.u.delete()
 
   def test_login(self):
+    # Missing fields
+    resp = self.client.post(reverse("user:auth"))
+
+    self.assertEqual(resp.status_code, 400)
+    self.assertTrue("email" in resp.json()["fields"])
+    self.assertTrue("password" in resp.json()["fields"])
+
     # Bad email
     resp = self.client.post(reverse("user:auth"), {
       "email": "bad@email",

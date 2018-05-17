@@ -13,7 +13,7 @@ class AuthAPI(APIView):
     form = LoginForm(request.POST)
 
     if not form.is_valid():
-      return self.form_error(form.errors)
+      return self.form_error(form)
 
     data = form.cleaned_data
     user = authenticate(username=data["email"], password=data["password"])

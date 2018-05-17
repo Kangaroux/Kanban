@@ -4,8 +4,13 @@ from django.views import View
 
 class APIView(View):
   @classmethod
-  def form_error(cls, fields, msg=None):
-    return cls.error(msg, { "fields": fields })
+  def form_error(cls, form, msg=None):
+    if not msg:
+      msg = "Some fields are missing or incorrect."
+
+    return cls.error(msg, {
+      "fields": { k:v[0] for k, v in form.errors.items() }
+    })
 
   @staticmethod
   def error(msg, data=None, code=400):
