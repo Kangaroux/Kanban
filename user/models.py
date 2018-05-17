@@ -12,5 +12,5 @@ class User(BaseModel, AbstractUser):
   username = models.CharField(max_length=20)
   email = models.EmailField(unique=True)
 
-  # For consistency with other models, this is replaced by BaseModel.date_created
+  # Replace AbstractUser.date_joined with BaseModel.date_created for consistency
   date_joined = None

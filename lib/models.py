@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from django.utils import timezone
 
@@ -12,7 +14,7 @@ class Serializable:
     if only and exclude:
       raise ValueError("Both `only` and `exclude` cannot be used for serializing")
 
-    fields = SERIALIZE_FIELDS
+    fields = self.SERIALIZE_FIELDS
     data = {}
 
     if only:
@@ -31,8 +33,11 @@ class Serializable:
 
 
 
-class BaseModel(Serializable):
+class BaseModel(Serializable, models.Model):
   """ Base model class which has created and updated fields for generating timestamps """
+
+  class Meta:
+    abstract = True
 
   date_created = models.DateTimeField(auto_now_add=True)
   date_updated = models.DateTimeField(auto_now=True)

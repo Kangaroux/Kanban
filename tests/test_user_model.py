@@ -1,0 +1,27 @@
+import unittest
+
+from django.db.utils import IntegrityError
+
+from tests import create_user
+from user.models import User
+
+
+class TestUser(unittest.TestCase):
+  def setUp(self):
+    self.u = create_user()
+
+  def tearDown(self):
+    self.u.delete()
+
+  def test_serialize(self):
+    self.assertEqual(self.u.serialize(), {
+      "first_name": self.u.first_name,
+      "last_name": self.u.last_name,
+      "email": self.u.email,
+      "username": self.u.username,
+      "date_created": self.u.date_created.isoformat()
+    })
+
+  def test_unique_email(self):
+    with self.assertRaises(IntegrityError):
+      create_user()
