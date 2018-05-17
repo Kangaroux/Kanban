@@ -20,6 +20,6 @@ class CreateUserForm(BaseUserForm):
       self.add_error("confirm_password", "Passwords must match")
 
 
-class LoginForm(forms.ModelForm):
+class LoginForm(forms.Form):
   email = forms.EmailField()
-  password = forms.CharField()
+  password = forms.CharField(strip=False)

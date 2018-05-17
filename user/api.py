@@ -16,10 +16,10 @@ class AuthAPI(APIView):
       return self.form_error(form.errors)
 
     data = form.cleaned_data
-    user = authenticate(email=data["email"], password=data["password"])
+    user = authenticate(username=data["email"], password=data["password"])
 
     if not user:
-      return self.error(msg="Email or password is incorrect.", code=http.BAD_REQUEST)
+      return self.error(msg="Email or password is incorrect.")
 
     login(request, user)
 

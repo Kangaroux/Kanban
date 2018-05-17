@@ -17,7 +17,7 @@ class APIView(View):
     if data:
       resp.update(data)
 
-    return JsonResponse(resp, status_code=400)
+    return JsonResponse(resp, status=400)
 
   @staticmethod
   def ok(msg=None, data=None, code=200):
@@ -31,4 +31,4 @@ class APIView(View):
     if data:
       resp.update(data)
 
-    return JsonResponse(resp, status_code=code)
+    return JsonResponse(resp, status=code)
