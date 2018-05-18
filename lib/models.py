@@ -9,7 +9,7 @@ from django.utils import timezone
 
 class ListField(models.TextField):
   empty_strings_allowed = False
-  
+
   def from_db_value(self, value, *args, **kwargs):
     return self.to_python(value)
 

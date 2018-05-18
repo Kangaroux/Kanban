@@ -3,7 +3,31 @@ from django.http import JsonResponse
 from django.views import View
 
 
+class BaseAPIError(Exception):
+  def as_json(self):
+    raise NotImplementedError
+
+
+class MissingError(BaseAPIError):
+  def __init__(self, msg, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+    self.msg = msg
+
+  def as_json(self):
+    return APIView.error(self.msg, status=404)
+
+
 class APIView(View):
+  """ Base API view which includes some common methods for returning responses
+  and checking authorization
+  """
+
+  def dispatch(self, *args, **kwargs):
+    try:
+      return super().dispatch(*args, **kwargs)
+    except BaseAPIError as e:
+      return e.as_json()
+
   @classmethod
   def form_error(cls, form, msg=None):
     if not msg:
