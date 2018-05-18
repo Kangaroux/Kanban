@@ -8,9 +8,6 @@ class TestUserModel(TestCase):
   def setUp(self):
     self.u = self.create_user()
 
-  def tearDown(self):
-    self.u.delete()
-
   def test_serialize(self):
     self.assertEqual(self.u.serialize(), {
       "id": self.u.id,

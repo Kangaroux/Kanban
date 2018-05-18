@@ -8,9 +8,6 @@ class TestBoardAPI(TestCase):
   def setUp(self):
     self.u = self.create_user()
 
-  def tearDown(self):
-    self.u.delete()
-
   def test_create_board(self):
     # Not logged in
     self.assert_not_logged_in(self.client.post(reverse("project:board")))

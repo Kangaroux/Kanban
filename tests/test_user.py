@@ -8,9 +8,6 @@ class TestUserAPI(TestCase):
   def setUp(self):
     self.u = self.create_user()
 
-  def tearDown(self):
-    self.u.delete()
-
   def test_get_user(self):
     # Test invalid user
     resp = self.client.get(reverse("user:user", args=[12345]))

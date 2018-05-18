@@ -8,6 +8,12 @@ from django.utils import timezone
 
 
 class ListField(models.TextField):
+  def __init__(self, *args, **kwargs):
+    if not isinstance(kwargs.get("default"), list):
+      kwargs["default"] = []
+
+    super().__init__(*args, **kwargs)
+
   def from_db_value(self, value, *args, **kwargs):
     return self.to_python(value)
 
@@ -24,7 +30,7 @@ class ListField(models.TextField):
     if value is None or value == "":
       return "[]"
 
-    return json.dumps(value)
+    return json.dumps(value, separators=(',', ':'))
 
 
 class Serializable:
