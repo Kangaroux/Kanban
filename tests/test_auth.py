@@ -1,12 +1,11 @@
 from django.shortcuts import reverse
-from django.test import TestCase
 
-from tests import create_user
+from tests import TestCase
 
 
 class TestAuthAPI(TestCase):
   def setUp(self):
-    self.u = create_user()
+    self.u = self.create_user()
 
   def tearDown(self):
     self.u.delete()
@@ -48,7 +47,7 @@ class TestAuthAPI(TestCase):
     self.assertTrue("_auth_user_id" in self.client.session)
 
   def test_logout(self):
-    self.client.login(username=self.u.email, password=self.u.raw_password)
+    self.login(self.u)
     self.assertTrue("_auth_user_id" in self.client.session)
     self.client.delete(reverse("user:auth"))
     self.assertTrue("_auth_user_id" not in self.client.session)

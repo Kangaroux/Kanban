@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 
 from .forms import CreateUserForm, LoginForm
 from .models import User
-from lib.views import APIView
+from lib.views import APIView, LoginRequiredMixin
 
 
 class AuthAPI(APIView):
@@ -67,6 +67,9 @@ class UserAPI(APIView):
 
   def delete(self, request, user_id):
     """ Deletes an existing user """
+    if not request.user.is_authenticated:
+      return self.not_logged_in()
+
     try:
       user = User.objects.get(id=user_id)
     except User.DoesNotExist:

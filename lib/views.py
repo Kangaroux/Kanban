@@ -1,3 +1,4 @@
+import django.contrib.auth.mixins
 from django.http import JsonResponse
 from django.views import View
 
@@ -13,7 +14,7 @@ class APIView(View):
     })
 
   @staticmethod
-  def error(msg, data=None, code=400):
+  def error(msg, data=None, status=400):
     resp = {
       "status": "error",
       "msg": msg
@@ -22,10 +23,10 @@ class APIView(View):
     if data:
       resp.update(data)
 
-    return JsonResponse(resp, status=400)
+    return JsonResponse(resp, status=status)
 
   @staticmethod
-  def ok(msg=None, data=None, code=200):
+  def ok(msg=None, data=None, status=200):
     resp = {
       "status": "ok"
     }
@@ -36,4 +37,17 @@ class APIView(View):
     if data:
       resp.update(data)
 
-    return JsonResponse(resp, status=code)
+    return JsonResponse(resp, status=status)
+
+  @classmethod
+  def not_logged_in(cls):
+    return cls.error("You must be logged in to do that.", status=401)
+
+  @classmethod
+  def lacks_permission(cls):
+    return cls.error("You do not have permission to do that.", status=403)
+
+
+class LoginRequiredMixin(django.contrib.auth.mixins.LoginRequiredMixin):
+  def handle_no_permission(self):
+    return APIView.not_logged_in()

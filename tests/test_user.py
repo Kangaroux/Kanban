@@ -1,13 +1,12 @@
 from django.shortcuts import reverse
-from django.test import TestCase
 
-from tests import create_user
+from tests import TestCase
 from user.models import User
 
 
 class TestUserAPI(TestCase):
   def setUp(self):
-    self.u = create_user()
+    self.u = self.create_user()
 
   def tearDown(self):
     self.u.delete()
@@ -15,7 +14,7 @@ class TestUserAPI(TestCase):
   def test_get_user(self):
     # Test invalid user
     resp = self.client.get(reverse("user:user", args=[12345]))
-
+    
     self.assertEqual(resp.status_code, 400)
     self.assertEqual(resp.json()["msg"], "User does not exist.")
 
@@ -57,21 +56,24 @@ class TestUserAPI(TestCase):
         "password": "qweasd123",
         "confirm_password": "qweasd123",
       })
-
-
+    
     user = User.objects.get(id=resp.json()["user_id"])
 
     self.assertEqual(resp.status_code, 200)
+    self.assertTrue(user.check_password("qweasd123"))
     self.assertEqual(user.serialize(exclude=["date_created"]), {
       "first_name": "First",
       "last_name": "Last",
       "email": "first@last.com",
       "username": "firstlast"
     })
-    self.assertTrue(user.check_password("qweasd123"))
 
-  def test_delete_nonexistent_user(self):
+  def test_delete_user_invalid(self):
+    # Not logged in
+    self.assert_not_logged_in(self.client.delete(reverse("user:user", args=[12345])))
+
     # Delete nonexistent user
+    self.login(self.u)
     resp = self.client.delete(reverse("user:user", args=[12345]))
 
     self.assertEqual(resp.status_code, 400)
@@ -79,8 +81,8 @@ class TestUserAPI(TestCase):
 
   def test_delete_user(self):
     # Delete user
-    self.client.login(username=self.u.email, password=self.u.raw_password)
-
+    self.login(self.u)
     resp = self.client.delete(reverse("user:user", args=[self.u.id]))
+
     self.assertEqual(resp.status_code, 200)
     self.assertTrue("_auth_user_id" not in self.client.session)

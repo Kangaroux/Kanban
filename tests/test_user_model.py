@@ -1,14 +1,12 @@
-import unittest
-
 from django.db.utils import IntegrityError
 
-from tests import create_user
+from tests import TestCase
 from user.models import User
 
 
-class TestUser(unittest.TestCase):
+class TestUser(TestCase):
   def setUp(self):
-    self.u = create_user()
+    self.u = self.create_user()
 
   def tearDown(self):
     self.u.delete()
@@ -24,4 +22,4 @@ class TestUser(unittest.TestCase):
 
   def test_unique_email(self):
     with self.assertRaises(IntegrityError):
-      create_user()
+      self.create_user()
