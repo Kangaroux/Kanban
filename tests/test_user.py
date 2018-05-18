@@ -47,7 +47,7 @@ class TestUserAPI(TestCase):
       "confirm_password": "Passwords must match"
     })
 
-    # Good create user
+    # Success
     resp = self.client.post(reverse("user:user"), {
         "first_name": "First",
         "last_name": "Last",
@@ -59,9 +59,10 @@ class TestUserAPI(TestCase):
     
     user = User.objects.get(id=resp.json()["user_id"])
 
-    self.assertEqual(resp.status_code, 200)
+    self.assertEqual(resp.status_code, 201)
     self.assertTrue(user.check_password("qweasd123"))
     self.assertEqual(user.serialize(exclude=["date_created"]), {
+      "id": user.id,
       "first_name": "First",
       "last_name": "Last",
       "email": "first@last.com",
@@ -80,7 +81,6 @@ class TestUserAPI(TestCase):
     self.assertEqual(resp.json()["msg"], "User does not exist.")
 
   def test_delete_user(self):
-    # Delete user
     self.login(self.u)
     resp = self.client.delete(reverse("user:user", args=[self.u.id]))
 

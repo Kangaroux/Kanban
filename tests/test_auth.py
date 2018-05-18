@@ -37,7 +37,7 @@ class TestAuthAPI(TestCase):
     self.assertEqual(resp.status_code, 400)
     self.assertEqual(resp.json()["msg"], "Email or password is incorrect.")
 
-    # Good login
+    # Success
     resp = self.client.post(reverse("user:auth"), {
       "email": self.u.email,
       "password": self.u.raw_password

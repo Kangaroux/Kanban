@@ -26,7 +26,7 @@ class APIView(View):
     return JsonResponse(resp, status=status)
 
   @staticmethod
-  def ok(msg=None, data=None, status=200):
+  def ok(data=None, msg=None, status=200):
     resp = {
       "status": "ok"
     }

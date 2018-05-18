@@ -4,7 +4,7 @@ from tests import TestCase
 from user.models import User
 
 
-class TestUser(TestCase):
+class TestUserModel(TestCase):
   def setUp(self):
     self.u = self.create_user()
 
@@ -13,6 +13,7 @@ class TestUser(TestCase):
 
   def test_serialize(self):
     self.assertEqual(self.u.serialize(), {
+      "id": self.u.id,
       "first_name": self.u.first_name,
       "last_name": self.u.last_name,
       "email": self.u.email,
