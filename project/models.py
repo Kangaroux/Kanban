@@ -3,7 +3,7 @@ from django.db import models
 from lib.models import BaseModel, ListField
 
 
-class Board(BaseModel):  
+class Board(BaseModel):
   name = models.CharField(max_length=50)
   description = models.TextField(max_length=200, blank=True)
   created_by = models.ForeignKey("user.User", on_delete=models.CASCADE)
@@ -14,6 +14,14 @@ class Board(BaseModel):
 
   def __repr__(self):
     return "<Board id=%r name=%r>" % (self.id, self.name)
+
+  @classmethod
+  def create_board(cls, **fields):
+    """ Fixes `column_order` not defaulting to an empty list """
+    if not fields.get("column_order"):
+      fields["column_order"] = []
+
+    return cls.objects.create(**fields)
 
   def get_columns_ordered(self):
     """ Returns the columns for this board in the order that they are defined
@@ -45,6 +53,14 @@ class Column(BaseModel):
 
   def __repr__(self):
     return "<Column id=%r name=%r>" % (self.id, self.name)
+
+  @classmethod
+  def create_column(cls, **fields):
+    """ Fixes `task_order` not defaulting to an empty list """
+    if not fields.get("task_order"):
+      fields["task_order"] = []
+
+    return cls.objects.create(**fields)
 
 
 class Task(BaseModel):

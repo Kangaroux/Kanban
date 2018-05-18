@@ -11,7 +11,7 @@ class TestUserAPI(TestCase):
   def test_get_user(self):
     # Test invalid user
     resp = self.client.get(reverse("user:user", args=[12345]))
-    
+
     self.assertEqual(resp.status_code, 400)
     self.assertEqual(resp.json()["msg"], "User does not exist.")
 
@@ -53,7 +53,7 @@ class TestUserAPI(TestCase):
         "password": "qweasd123",
         "confirm_password": "qweasd123",
       })
-    
+
     user = User.objects.get(id=resp.json()["user_id"])
 
     self.assertEqual(resp.status_code, 201)

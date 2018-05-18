@@ -4,15 +4,12 @@ from tests import TestCase
 from project.models import Board, Column
 
 
-
-
-
 class TestBoardModel(TestCase):
   def setUp(self):
     self.u = self.create_user()
 
   def create_board(self):
-    return Board.objects.create(
+    return Board.create_board(
       name="Test board",
       description="My test board",
       created_by=self.u,
@@ -63,7 +60,6 @@ class TestBoardModel(TestCase):
 
   def test_ordering_columns(self):
     board = self.create_board()
-    print(board.column_order)
     columns = [
         Column.objects.create(name="Col1", board=board),
         Column.objects.create(name="Col2", board=board),
@@ -78,5 +74,3 @@ class TestBoardModel(TestCase):
     board.save()
 
     cols = Column.objects.filter(board=board)
-    print(board.column_order)
-    print([ c.id for c in cols ])
