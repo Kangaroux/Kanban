@@ -8,12 +8,8 @@ from django.utils import timezone
 
 
 class ListField(models.TextField):
-  def __init__(self, *args, **kwargs):
-    if not isinstance(kwargs.get("default"), list):
-      kwargs["default"] = []
-
-    super().__init__(*args, **kwargs)
-
+  empty_strings_allowed = False
+  
   def from_db_value(self, value, *args, **kwargs):
     return self.to_python(value)
 
@@ -21,13 +17,13 @@ class ListField(models.TextField):
     if isinstance(value, list):
       return value
 
-    if value is None or value == "":
+    if not value:
       return []
 
     return json.loads(value)
 
   def get_prep_value(self, value):
-    if value is None or value == "":
+    if not value:
       return "[]"
 
     return json.dumps(value, separators=(',', ':'))

@@ -26,7 +26,7 @@ class Board(BaseModel):
 
   def add_column(self, col, index=None):
     """ Adds a column to the board at the specified index. If `index` is None,
-    the column is inserted last. This updates the new column but not the board
+    the column is inserted last. The board is not automatically saved
     """
     if index is None:
       self.column_order.append(col.id)
@@ -34,9 +34,6 @@ class Board(BaseModel):
       raise ValueError("Cannot insert column at out of range index %d" % index)
     else:
       self.column_order.insert(index, col.id)
-
-    col.board = self
-    col.save()
 
 
 class Column(BaseModel):

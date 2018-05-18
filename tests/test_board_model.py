@@ -60,3 +60,23 @@ class TestBoardModel(TestCase):
     board.add_column(columns[3])
     self.assertEqual(board.column_order,
       [ columns[1].id, columns[2].id, columns[0].id, columns[3].id ])
+
+  def test_ordering_columns(self):
+    board = self.create_board()
+    print(board.column_order)
+    columns = [
+        Column.objects.create(name="Col1", board=board),
+        Column.objects.create(name="Col2", board=board),
+        Column.objects.create(name="Col3", board=board),
+        Column.objects.create(name="Col4", board=board),
+      ]
+
+    board.add_column(columns[0])
+    board.add_column(columns[2])
+    board.add_column(columns[3])
+    board.add_column(columns[1])
+    board.save()
+
+    cols = Column.objects.filter(board=board)
+    print(board.column_order)
+    print([ c.id for c in cols ])
