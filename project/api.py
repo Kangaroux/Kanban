@@ -46,6 +46,18 @@ class BoardAPI(LoginRequiredMixin, APIView):
 class ColumnAPI(LoginRequiredMixin, APIView):
   """ API view for interacting with column objects """
 
+  def get(self, request, board_id, column_id=None):
+    """ Gets a single column by id or a collection of columns """
+    board = self.get_or_404(Board, board_id)
+
+    if column_id is not None:
+      column = self.get_or_404(Column, column_id)
+
+      return self.ok({ "column": column.serialize() })
+    else:
+      # TODO: Add appropriate filtering here
+      return self.ok({ "columns": [ c.serialize() for c in board.get_columns_ordered() ] })
+
   def post(self, request, board_id):
     """ Adds a new column to a board """
     board = self.get_or_404(Board, board_id)
