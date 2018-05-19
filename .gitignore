@@ -6,5 +6,7 @@ db.sqlite3
 
 .pytest_cache
 __pycache__/
+build/
 instance/
+node_modules/
 venv/

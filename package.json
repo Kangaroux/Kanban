@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-es2015-riot": "^1.1.0",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.1",
+    "riot": "^3.10.0",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.3"
+  }
+}
