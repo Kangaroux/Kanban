@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 
 from . import api
 
@@ -6,6 +6,9 @@ from . import api
 app_name = "project"
 
 urlpatterns = [
-  path("board/", api.BoardAPI.as_view(), name="board"),
-  path("board/<int:board_id>/", api.BoardAPI.as_view(), name="board"),
+  path("boards/", api.BoardAPI.as_view(), name="board"),
+  path("boards/<int:board_id>/", include([
+    path("", api.BoardAPI.as_view(), name="board"),
+    path("columns/", api.ColumnAPI.as_view(), name="column")
+  ])),
 ]

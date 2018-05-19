@@ -30,7 +30,7 @@ class Board(BaseModel):
     cols = Column.objects.filter(board=self)
     cols = { c.id : c for c in cols }
 
-    return [ cols[i] for i in column_order ]
+    return [ cols[i] for i in self.column_order ]
 
   def add_column(self, col, index=None):
     """ Adds a column to the board at the specified index. If `index` is None,

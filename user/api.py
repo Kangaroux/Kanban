@@ -33,15 +33,9 @@ class AuthAPI(APIView):
 
 
 class UserAPI(APIView):
-  def user_does_not_exist(self):
-    return self.error("User does not exist.")
-
   def get(self, request, user_id):
     """ Returns a user's info """
-    try:
-      user = User.objects.get(id=user_id)
-    except User.DoesNotExist:
-      return self.user_does_not_exist()
+    user = self.get_or_404(User, user_id)
 
     return self.ok(data={ "user": user.serialize() })
 
@@ -70,10 +64,7 @@ class UserAPI(APIView):
     if not request.user.is_authenticated:
       return self.not_logged_in()
 
-    try:
-      user = User.objects.get(id=user_id)
-    except User.DoesNotExist:
-      return self.user_does_not_exist()
+    user = self.get_or_404(User, user_id)
 
     if user.id == request.user.id:
       logout(request)

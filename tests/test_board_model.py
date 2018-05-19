@@ -1,7 +1,7 @@
 from django.db.utils import IntegrityError
 
-from tests import TestCase
 from project.models import Board, Column
+from tests import TestCase
 
 
 class TestBoardModel(TestCase):

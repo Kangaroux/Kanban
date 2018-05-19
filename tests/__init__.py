@@ -1,5 +1,6 @@
 import django.test
 
+from project.models import Board
 from user.models import User
 
 
@@ -16,6 +17,14 @@ class TestCase(django.test.TransactionTestCase):
     u.raw_password = "password123"
 
     return u
+
+  def create_board(self):
+    return Board.create_board(
+      name="Test board",
+      description="My test board",
+      created_by=self.u,
+      owner=self.u,
+    )
 
   def assert_not_logged_in(self, resp):
     self.assertEqual(resp.status_code, 401)

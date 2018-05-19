@@ -12,7 +12,7 @@ class TestUserAPI(TestCase):
     # Test invalid user
     resp = self.client.get(reverse("user:user", args=[12345]))
 
-    self.assertEqual(resp.status_code, 400)
+    self.assertEqual(resp.status_code, 404)
     self.assertEqual(resp.json()["msg"], "User does not exist.")
 
     # Test good user
@@ -74,7 +74,7 @@ class TestUserAPI(TestCase):
     self.login(self.u)
     resp = self.client.delete(reverse("user:user", args=[12345]))
 
-    self.assertEqual(resp.status_code, 400)
+    self.assertEqual(resp.status_code, 404)
     self.assertEqual(resp.json()["msg"], "User does not exist.")
 
   def test_delete_user(self):

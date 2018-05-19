@@ -1,20 +1,12 @@
 from django.shortcuts import reverse
 
-from tests import TestCase
 from project.models import Board
+from tests import TestCase
 
 
 class TestBoardAPI(TestCase):
   def setUp(self):
     self.u = self.create_user()
-
-  def create_board(self):
-    return Board.create_board(
-      name="Test board",
-      description="My test board",
-      created_by=self.u,
-      owner=self.u,
-    )
 
   def test_login_required(self):
     self.assert_not_logged_in(self.client.get(reverse("project:board")))
