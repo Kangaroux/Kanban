@@ -33,7 +33,7 @@ class BoardAPI(LoginRequiredMixin, APIView):
         created_by=request.user
       )
 
-    return self.ok({ "board_id": board.id }, status=201)
+    return self.ok({ "board": board.serialize() }, status=201)
 
   def delete(self, request, board_id):
     """ Deletes a board """
@@ -63,4 +63,4 @@ class ColumnAPI(LoginRequiredMixin, APIView):
     board.add_column(column, data.get("index"))
     board.save()
 
-    return self.ok({ "column_id": column.id }, status=201)
+    return self.ok({ "column": column.serialize() }, status=201)

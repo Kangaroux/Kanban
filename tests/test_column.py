@@ -24,9 +24,9 @@ class TestColumnAPI(TestCase):
         "name": "Test Column"
       })
 
-    column = Column.objects.get(id=resp.json()["column_id"])
+    column = Column.objects.get(id=resp.json()["column"]["id"])
     board.refresh_from_db()
 
     self.assertEqual(resp.status_code, 201)
-    self.assertEqual(column.board, board)
+    self.assertEqual(resp.json()["column"], column.serialize())
     self.assertEqual(board.get_columns_ordered(), [column])

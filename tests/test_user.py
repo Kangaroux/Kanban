@@ -54,17 +54,11 @@ class TestUserAPI(TestCase):
         "confirm_password": "qweasd123",
       })
 
-    user = User.objects.get(id=resp.json()["user_id"])
+    user = User.objects.get(id=resp.json()["user"]["id"])
 
     self.assertEqual(resp.status_code, 201)
     self.assertTrue(user.check_password("qweasd123"))
-    self.assertEqual(user.serialize(exclude=["date_created"]), {
-      "id": user.id,
-      "first_name": "First",
-      "last_name": "Last",
-      "email": "first@last.com",
-      "username": "firstlast"
-    })
+    self.assertEqual(resp.json()["user"], user.serialize())
 
   def test_delete_user_invalid(self):
     # Not logged in

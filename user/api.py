@@ -51,7 +51,7 @@ class UserAPI(APIView):
 
     user = User.objects.create_user(**data)
 
-    return self.ok({ "user_id": user.id }, status=201)
+    return self.ok({ "user": user.serialize() }, status=201)
 
   # def patch(self, user_id):
   #   """ Updates an existing user """

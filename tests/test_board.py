@@ -28,16 +28,9 @@ class TestBoardAPI(TestCase):
         "description": "This is a test board.",
       })
 
-    board = Board.objects.get(id=resp.json()["board_id"])
+    board = Board.objects.get(id=resp.json()["board"]["id"])
     self.assertEqual(resp.status_code, 201)
-    self.assertEqual(board.serialize(exclude=["date_created", "date_updated"]), {
-        "id": board.id,
-        "name": "Test board",
-        "description": "This is a test board.",
-        "column_order": [],
-        "owner": self.u.id,
-        "created_by": self.u.id,
-      })
+    self.assertEqual(resp.json()["board"], board.serialize())
 
   def test_get_single_board(self):
     self.login(self.u)
