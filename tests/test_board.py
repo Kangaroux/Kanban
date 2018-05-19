@@ -9,9 +9,9 @@ class TestBoardAPI(TestCase):
     self.u = self.create_user()
 
   def test_login_required(self):
-    self.assert_not_logged_in(self.client.get(reverse("project:board")))
+    self.assert_not_logged_in(self.client.get(reverse("project:board", args=[12345])))
     self.assert_not_logged_in(self.client.post(reverse("project:board")))
-    self.assert_not_logged_in(self.client.delete(reverse("project:board")))
+    self.assert_not_logged_in(self.client.delete(reverse("project:board", args=[12345])))
 
   def test_create_board(self):
     self.login(self.u)

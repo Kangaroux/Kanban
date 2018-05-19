@@ -8,9 +8,13 @@ class TestColumnAPI(TestCase):
   def setUp(self):
     self.u = self.create_user()
 
+  def test_login_required(self):
+    self.assert_not_logged_in(self.client.get(reverse("project:column", args=[12345, 12345])))
+    self.assert_not_logged_in(self.client.post(reverse("project:column", args=[12345])))
+    self.assert_not_logged_in(self.client.delete(reverse("project:column", args=[12345, 12345])))
+
   def test_create_column(self):
     self.login(self.u)
-
     board = self.create_board()
 
     # Missing fields
