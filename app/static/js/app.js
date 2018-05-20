@@ -1,6 +1,7 @@
 import riot from "riot";
 
+import "./redux/store";
 import "./components/app-root";
 
 
-riot.mount("app-root");
+riot.mount("*");

@@ -16,6 +16,6 @@
   padding: 0.5em 1em;
 }
 
-.btn-white-outline { @include btn-outline(white); }
-.btn-black-outline { @include btn-outline(black); }
+.btn-white-outline { @include btn-outline(#FFF); }
+.btn-black-outline { @include btn-outline(#000); }
 .btn-brand-outline { @include btn-outline($color-brand-blue); }
