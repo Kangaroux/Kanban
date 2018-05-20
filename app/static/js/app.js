@@ -1,6 +1,6 @@
 import riot from "riot";
 
-import "./components/test/test";
+import "./components/app-root";
 
 
-riot.mount("*");
+riot.mount("app-root");

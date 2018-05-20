@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "normalize.css": "^8.0.0",
     "riot": "^3.10.0"
   },
   "devDependencies": {
@@ -7,6 +8,7 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-sass": "^4.0.1",
     "riot-compiler": "^3.5.1",
