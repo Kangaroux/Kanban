@@ -14,3 +14,9 @@ class User(BaseModel, AbstractUser):
 
   # Replace AbstractUser.date_joined with BaseModel.date_created for consistency
   date_joined = None
+
+  def __str__(self):
+    return "%s (%s)" % (self.username, self.email)
+
+  def __repr__(self):
+    return "<User id=%r email=%r username=%r>" % (self.id, self.email, self.username)

@@ -5,7 +5,7 @@ const webpack = require("webpack");
 module.exports = {
   mode: "development",
   entry: {
-    app: "./app/app.js",
+    app: "./app/static/js/app.js",
   },
 
   output: {
@@ -34,7 +34,7 @@ module.exports = {
   resolve: {
     modules: [
       "node_modules",
-      path.resolve(__dirname, "app")
+      path.resolve(__dirname, "app", "static", "js")
     ],
     extensions: [".js", ".tag"]
   },
