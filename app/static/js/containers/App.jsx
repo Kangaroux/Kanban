@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 
-import AppRoot from "./AppRoot";
-import { hideModal } from "redux/actions";
+import AppRoot from "components/layout/AppRoot";
+import { hideModal, showModal } from "redux/actions";
 import { currentModal } from "redux/selectors";
 
 
@@ -13,7 +13,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    closeModal: () => dispatch(hideModal())
+    hideModal: () => dispatch(hideModal()),
+    showModal: (component, props) => dispatch(showModal(component, props)),
   };
 }
 

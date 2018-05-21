@@ -10,9 +10,12 @@ export default class AppRoot extends React.Component {
     let modal = this.props.modal.component;
     let modalProps = this.props.modal.props;
 
+    // Pass an `onHideModal` prop that the modal can call to hide itself
+    modalProps.onHideModal = this.props.hideModal;
+
     return (
       <Fragment>
-        <div className="dimmer" onClick={ this.props.closeModal }></div>
+        <div className="dimmer" onClick={ this.props.hideModal }></div>
         { React.createElement(modal, modalProps) }
       </Fragment>
     );
@@ -23,7 +26,7 @@ export default class AppRoot extends React.Component {
       <div className="root">
         { this.props.modal && this.renderModal() }
 
-        <AppNav />
+        <AppNav onShowModal={ this.props.showModal } />
       </div>
     );
   }
