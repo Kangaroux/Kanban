@@ -2,10 +2,11 @@
   "dependencies": {
     "immutable": "^3.8.2",
     "normalize.css": "^8.0.0",
+    "react": "^16.3.2",
+    "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "redux-immutable": "^4.0.0",
-    "reselect": "^3.0.1",
-    "riot": "^3.10.0"
+    "reselect": "^3.0.1"
   },
   "devDependencies": {
     "babel": "^6.23.0",
@@ -15,8 +16,6 @@
     "gulp-autoprefixer": "^5.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-sass": "^4.0.1",
-    "riot-compiler": "^3.5.1",
-    "riot-tag-loader": "^2.0.2",
     "webpack": "^4.8.3",
     "webpack-cli": "^2.1.3"
   }
