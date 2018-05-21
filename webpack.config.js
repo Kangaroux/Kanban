@@ -4,8 +4,9 @@ const webpack = require("webpack");
 
 module.exports = {
   mode: "development",
+
   entry: {
-    app: "./app/static/js/app.js",
+    app: "./app/static/js/app",
   },
 
   output: {
@@ -16,17 +17,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|tag)$/,
+        test: /\.jsx?$/,
         include: /app/,
         loader: "babel-loader",
-      },
-      {
-        test: /\.tag$/,
-        include: /app/,
-        loader: "riot-tag-loader",
-        query: {
-          hot: false
-        }
       }
     ]
   },
@@ -36,7 +29,7 @@ module.exports = {
       "node_modules",
       path.resolve(__dirname, "app", "static", "js")
     ],
-    extensions: [".js", ".tag"]
+    extensions: [".js", ".jsx"]
   },
 
   optimization: {
