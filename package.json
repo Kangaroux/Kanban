@@ -1,8 +1,10 @@
 {
   "dependencies": {
     "@f/serialize-form": "^1.0.0",
+    "axios": "^0.18.0",
     "immutable": "^3.8.2",
     "normalize.css": "^8.0.0",
+    "promise": "^8.0.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.7",

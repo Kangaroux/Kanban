@@ -5,7 +5,7 @@ import AppNav from "components/layout/AppNav";
 const Fragment = React.Fragment;
 
 
-export default class AppRoot extends React.Component {
+class AppRoot extends React.Component {
   renderModal() {
     let modal = this.props.modal.component;
     let modalProps = this.props.modal.props;
@@ -32,3 +32,6 @@ export default class AppRoot extends React.Component {
     );
   }
 }
+
+
+export default AppRoot;

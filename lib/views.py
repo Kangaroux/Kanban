@@ -45,11 +45,19 @@ class APIView(View):
 
   @classmethod
   def form_error(cls, form, msg=None):
+    errors = form.errors
+
+    # Any generic form-wide error(s) are included under the __all__ key
+    form_error_msg = errors.pop("__all__")
+
     if not msg:
-      msg = "Some fields are missing or incorrect."
+      if form_error_msg:
+        msg = form_error_msg[0]
+      else:
+        msg = "Some fields are missing or incorrect."
 
     return cls.error(msg, {
-      "fields": { k:v[0] for k, v in form.errors.items() }
+      "fields": { k:v[0] for k, v in errors.items() }
     })
 
   @staticmethod

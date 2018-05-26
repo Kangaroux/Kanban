@@ -5,7 +5,7 @@ import { showModal } from "redux/actions";
 import store from "redux/store";
 
 
-export default class AppNav extends React.Component {
+class AppNav extends React.Component {
   render() {
     return (
       <div className="nav-container">
@@ -23,3 +23,6 @@ export default class AppNav extends React.Component {
     );
   }
 }
+
+
+export default AppNav;

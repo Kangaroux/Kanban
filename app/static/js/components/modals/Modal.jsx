@@ -8,7 +8,7 @@ import store from "redux/store";
   Props:
   - hideModal: Function which is called when the close button is pressed.
 */
-export default class Modal extends React.Component {
+class Modal extends React.Component {
   render() {
     return (
       <div className="modal">
@@ -25,3 +25,6 @@ export default class Modal extends React.Component {
     );
   }
 }
+
+
+export default Modal;
