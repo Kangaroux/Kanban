@@ -10,7 +10,8 @@ class BaseUserForm(forms.ModelForm):
 
 
 class CreateUserForm(BaseUserForm):
-  password = forms.CharField(min_length=8, max_length=100, strip=False)
+  password = forms.CharField(min_length=8, max_length=100, strip=False,
+    error_messages={ "min_length": "Password must be at least %(limit_value)d characters." })
   confirm_password = forms.CharField(strip=False)
 
   def __init__(self, *args, **kwargs):

@@ -20,12 +20,12 @@ class InputField extends React.Component {
 
   render() {
     return (
-      <Field error={ this.props.error }>
+      <Field error={ this.props.error } className={ this.props.className }>
         <input
           type={ this.props.type }
           name={ this.props.name }
           placeholder={ this.props.placeholder }
-          className={ this.getClassName() }
+          className="field"
           value={ this.state.value }
           onChange={ (e) => this.setState({ value: e.target.value }) }
           data-lpignore={ this.props.lpignore ? "true" : null }

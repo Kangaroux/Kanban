@@ -12,13 +12,21 @@ function FieldError(props) {
   );
 }
 
-function Field(props) {
-  return (
-    <div className="field-group">
-      { props.children }
-      <FieldError error={ props.error } />
-    </div>
-  );
+class Field extends React.Component {
+  render() {
+    const cls = [
+      "field-group",
+      this.props.className || "",
+      this.props.error ? "field-group-error" : ""
+    ];
+
+    return (
+      <div className={ cls.join(" ") }>
+        { this.props.children }
+        <FieldError error={ this.props.error } />
+      </div>
+    );
+  }
 }
 
 

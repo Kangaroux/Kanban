@@ -48,7 +48,7 @@ class APIView(View):
     errors = form.errors
 
     # Any generic form-wide error(s) are included under the __all__ key
-    form_error_msg = errors.pop("__all__")
+    form_error_msg = errors.pop("__all__", None)
 
     if not msg:
       if form_error_msg:

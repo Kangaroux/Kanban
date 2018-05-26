@@ -10,10 +10,17 @@
 }
 
 .btn {
-  display: inline-block;
-  cursor: pointer;
   text-transform: uppercase;
   padding: 0.5em 1em;
+}
+
+a.btn {
+  cursor: pointer;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
 }
 
 .btn-white-outline { @include btn-outline(#FFF); }

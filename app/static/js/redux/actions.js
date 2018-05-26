@@ -1,9 +1,10 @@
-const actions = {
+export const actions = {
   SHOW_MODAL: "SHOW_MODAL",
   HIDE_MODAL: "HIDE_MODAL",
 };
 
-function showModal(component, props = {}) {
+
+export function showModal(component, props = {}) {
   return {
     type: actions.SHOW_MODAL,
     component,
@@ -11,15 +12,8 @@ function showModal(component, props = {}) {
   };
 }
 
-function hideModal() {
+export function hideModal() {
   return {
     type: actions.HIDE_MODAL
   };
 }
-
-
-export {
-  actions,
-  showModal,
-  hideModal
-};

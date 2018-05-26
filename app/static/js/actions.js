@@ -1,15 +1,16 @@
 import Axios from "axios";
 import Promise from "promise";
+import Qs from "qs";
 
 
-export function registerUser(data, onError, onSuccess) {
+export function registerUser(data) {
   return new Promise((resolve, reject) => {
-    Axios.post(URL.users, data)
+    Axios.post(api.user, Qs.stringify(data))
       .then((resp) => {
-        resolve(resp.data.fields);
+        resolve(resp.data.user);
       })
       .catch((err) => {
-        reject(err.data.msg, err.data.fields);
+        reject(err.response.data);
       });
   });
 }
