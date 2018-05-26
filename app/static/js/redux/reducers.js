@@ -2,7 +2,7 @@ import { List, Map } from "immutable";
 import { combineReducers } from "redux-immutable";
 
 import { actions } from "./actions";
-import RegisterModal from "components/modals/RegisterModal";
+import RegisterModal from "~/components/modals/RegisterModal";
 
 
 function currentModal(state = null, action) {

@@ -1,7 +1,7 @@
 import React from "react";
 
-import { hideModal } from "redux/actions";
-import store from "redux/store";
+import { hideModal } from "~/redux/actions";
+import store from "~/redux/store";
 
 
 /*

@@ -25,9 +25,11 @@ module.exports = {
   },
 
   resolve: {
+    alias: {
+      "~": path.resolve(__dirname, "app", "static", "js")
+    },
     modules: [
-      "node_modules",
-      path.resolve(__dirname, "app", "static", "js")
+      "node_modules"
     ],
     extensions: [".js", ".jsx"]
   },

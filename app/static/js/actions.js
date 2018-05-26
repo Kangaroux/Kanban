@@ -2,7 +2,7 @@ import Axios from "axios";
 import Promise from "promise";
 
 
-function registerUser(data, onError, onSuccess) {
+export function registerUser(data, onError, onSuccess) {
   return new Promise((resolve, reject) => {
     Axios.post(URL.users, data)
       .then((resp) => {

@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 
-import AppRoot from "components/layout/AppRoot";
-import { hideModal, showModal } from "redux/actions";
-import { currentModal } from "redux/selectors";
+import AppRoot from "~/components/layout/AppRoot";
+import { hideModal, showModal } from "~/redux/actions";
+import { currentModal } from "~/redux/selectors";
 
 
 function mapStateToProps(state) {

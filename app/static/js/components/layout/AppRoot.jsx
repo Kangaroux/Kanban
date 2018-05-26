@@ -1,6 +1,6 @@
 import React from "react";
 
-import AppNav from "components/layout/AppNav";
+import AppNav from "./AppNav";
 
 const Fragment = React.Fragment;
 

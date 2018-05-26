@@ -1,8 +1,8 @@
 import React from "react";
 
-import modals from "app";
-import { showModal } from "redux/actions";
-import store from "redux/store";
+import modals from "~/app";
+import { showModal } from "~/redux/actions";
+import store from "~/redux/store";
 
 
 class AppNav extends React.Component {
