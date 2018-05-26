@@ -3,10 +3,10 @@ const actions = {
   HIDE_MODAL: "HIDE_MODAL",
 };
 
-function showModal(name, props = {}) {
+function showModal(component, props = {}) {
   return {
     type: actions.SHOW_MODAL,
-    name,
+    component,
     props,
   };
 }

@@ -1,8 +1,8 @@
 import React from "react";
 
-import modals from "~/app";
+import Modals from "~/modals";
 import { showModal } from "~/redux/actions";
-import store from "~/redux/store";
+import Store from "~/redux/store";
 
 
 class AppNav extends React.Component {
@@ -14,7 +14,7 @@ class AppNav extends React.Component {
         <ul className="nav-items">
           <li className="nav-item">
             <a className="btn btn-brand-outline"
-            onClick={ () => store.dispatch(showModal("register"))}>
+            onClick={ () => Store.dispatch(showModal(Modals.REGISTER))}>
               Register
             </a>
           </li>
