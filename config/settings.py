@@ -2,12 +2,12 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "fy^pkvgi7e62&#8+2e0jq=e3%!$3)(5(&tkf*^r7d)5kyx0$pq"
-DEBUG = True
-
 ALLOWED_HOSTS = []
-
 ROOT_URLCONF = "config.urls"
 WSGI_APPLICATION = "config.wsgi.application"
+
+TESTING = os.environ.get("TESTING") == "1"
+DEBUG = True
 
 AUTH_USER_MODEL = "user.User"
 
@@ -66,7 +66,7 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-STATICFILES_DIRS = [
-  os.path.join(BASE_DIR, "build")
-]
+STATICFILES_DIRS = [ os.path.join(BASE_DIR, "build") ]
 STATIC_URL = "/static/"
+
+CSRF_FAILURE_VIEW = "app.views.csrf_handler"

@@ -31,6 +31,8 @@ class APIView(View):
       return super().dispatch(*args, **kwargs)
     except APIError as e:
       return e.as_json()
+    except:
+      return self.error("An unexpected error occurred.", status=500)
 
   @staticmethod
   def get_or_404(model, pk, msg=None):
