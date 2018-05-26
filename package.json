@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@f/serialize-form": "^1.0.0",
     "immutable": "^3.8.2",
     "normalize.css": "^8.0.0",
     "react": "^16.3.2",

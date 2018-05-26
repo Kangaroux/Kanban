@@ -14,7 +14,6 @@ class TestUserModel(TestCase):
       "first_name": self.u.first_name,
       "last_name": self.u.last_name,
       "email": self.u.email,
-      "username": self.u.username,
       "date_created": self.u.date_created.isoformat()
     })
 

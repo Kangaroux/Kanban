@@ -9,7 +9,6 @@ class TestCase(django.test.TransactionTestCase):
     u = User.objects.create_user(
       first_name="John",
       last_name="Smith",
-      username="jsmith",
       email="test@test.com",
       password="password123"
     )

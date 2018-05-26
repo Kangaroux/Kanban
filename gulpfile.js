@@ -50,4 +50,4 @@ gulp.task("js:watch", function() {
 });
 
 gulp.task("default", ["css", "js"]);
-gulp.task("watch", ["css:watch", "js:watch"]);
+gulp.task("watch", ["css", "css:watch", "js:watch"]);

@@ -27,14 +27,13 @@ class TestUserAPI(TestCase):
 
     self.assertEqual(resp.status_code, 400)
     self.assertEqual(set(resp.json()["fields"].keys()),
-      set(["first_name", "email", "username", "password", "confirm_password"]))
+      set(["first_name", "email", "password", "confirm_password"]))
 
     # Mismatched passwords
     resp = self.client.post(reverse("user:user"), {
         "first_name": "First",
         "last_name": "Last",
         "email": "first@last.com",
-        "username": "firstlast",
         "password": "qweasd123",
         "confirm_password": "asdlkasjdlkajdl",
       })
@@ -49,7 +48,6 @@ class TestUserAPI(TestCase):
         "first_name": "First",
         "last_name": "Last",
         "email": "first@last.com",
-        "username": "firstlast",
         "password": "qweasd123",
         "confirm_password": "qweasd123",
       })
