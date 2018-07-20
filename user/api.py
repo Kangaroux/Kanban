@@ -5,8 +5,8 @@ from .models import User
 from lib.views import APIView, LoginRequiredMixin
 
 
-class AuthAPI(APIView):
-  """ Authenticates the user """
+class SessionAPI(APIView):
+  """ Session API for logging in and logging out """
 
   def post(self, request):
     """ Logs a user in """

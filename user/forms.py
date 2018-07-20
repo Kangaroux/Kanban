@@ -1,5 +1,6 @@
 from django import forms
 
+from lib.forms import SimpleEmailField
 from user.models import User
 
 
@@ -28,5 +29,5 @@ class CreateUserForm(BaseUserForm):
 
 
 class LoginForm(forms.Form):
-  email = forms.EmailField()
+  email = SimpleEmailField()
   password = forms.CharField(strip=False)

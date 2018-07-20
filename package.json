@@ -13,13 +13,16 @@
     "webpack-cli": "^3.1.0"
   },
   "scripts": {
-    "dev": "rm -rf dist/*\n gulp watch &\n webpack --watch --progress --colors --devtool eval-cheap-module-source-map --mode development\n wait",
+    "dev": "rm -rf dist/*\n gulp watch &\n webpack --watch --progress --colors --devtool cheap-module-eval-source-map --mode development\n wait",
     "prod": "rm -rf dist/*\n gulp &\n webpack --progress --colors -p\n wait"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "normalize.scss": "^0.1.0",
+    "promise": "^8.0.1",
+    "qs": "^6.5.2",
     "vue": "^2.5.16",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   }
 }

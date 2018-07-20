@@ -15,9 +15,12 @@
     </div>
 
     <script type="text/javascript">
-      var api = {
+      window.API = {
+        session: "{% url 'user:session' %}",
         user: "{% url 'user:user' %}"
       }
+
+      window.CSRF_TOKEN = "{{ csrf_token }}";
     </script>
     <script src="{% static 'vendor.js' %}"></script>
     <script src="{% static 'app.js' %}"></script>

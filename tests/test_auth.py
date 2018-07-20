@@ -3,7 +3,7 @@ from django.shortcuts import reverse
 from tests import TestCase
 
 
-class TestAuthAPI(TestCase):
+class TestSessionAPI(TestCase):
   def setUp(self):
     self.u = self.create_user()
 

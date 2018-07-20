@@ -1,6 +1,11 @@
+import logging
+
 import django.contrib.auth.mixins
 from django.http import JsonResponse
 from django.views import View
+
+
+logger = logging.getLogger(__name__)
 
 
 class APIError(Exception):
@@ -31,7 +36,8 @@ class APIView(View):
       return super().dispatch(*args, **kwargs)
     except APIError as e:
       return e.as_json()
-    except:
+    except Exception as e:
+      logger.exception("Error in APIView")
       return self.error("An unexpected error occurred.", status=500)
 
   @staticmethod
