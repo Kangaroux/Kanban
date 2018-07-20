@@ -1,5 +1,8 @@
 .nav-container {
-  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
   background-color: #FFF;
-  border-bottom: 1px solid #DDD;
+  border-right: 2px solid #DDD;
 }
