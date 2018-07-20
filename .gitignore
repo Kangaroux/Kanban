@@ -4,6 +4,6 @@
 db.sqlite3
 
 __pycache__/
-build/
+dist/
 node_modules/
 venv/
