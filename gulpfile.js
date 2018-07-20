@@ -7,9 +7,13 @@ const dstDir = "./dist/"
 
 
 function buildStylesheets(prod) {
-  return Gulp.src(srcDir + "css/**/*.scss")
-    .pipe(Sass(prod ? { outputStyle: "compressed" } : null)
-      .on("error", Sass.logError))
+  const sassOptions = {
+    includePaths: [ "node_modules/" ],
+    outputStyle: prod ? "compressed" : "nested"
+  };
+
+  return Gulp.src(srcDir + "css/*.scss")
+    .pipe(Sass(sassOptions).on("error", Sass.logError))
     .pipe(Autoprefixer({
       cascade: false,
       browsers: ["last 2 versions", "> 1%"]

@@ -66,7 +66,7 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-STATICFILES_DIRS = [ os.path.join(BASE_DIR, "build") ]
+STATICFILES_DIRS = [ os.path.join(BASE_DIR, "dist") ]
 STATIC_URL = "/static/"
 
 CSRF_FAILURE_VIEW = "app.views.csrf_handler"
