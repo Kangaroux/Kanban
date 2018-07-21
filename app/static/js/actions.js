@@ -8,7 +8,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Axios.post(API.session, Qs.stringify({ email, password }))
         .then((resp) => {
-          resolve();
+          resolve(resp.data.user);
         })
         .catch((error) => {
           const data = error.response.data;
@@ -19,12 +19,6 @@ module.exports = {
           reject({
             formError: data.msg,
             fieldErrors: data.fields || {}
-          });
-        })
-        .catch((error) => {
-          reject({
-            formError: "An unexpected error occurred.",
-            fieldErrors: {}
           });
         });
     });

@@ -23,7 +23,7 @@ class SessionAPI(APIView):
 
     login(request, user)
 
-    return self.ok()
+    return self.ok(data={ "user": user.serialize() })
 
   def delete(self, request):
     """ Logs a user out """
