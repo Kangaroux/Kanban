@@ -3,30 +3,36 @@ import VueRouter from "vue-router";
 
 const routes = [
   {
-    name: "landing",
     path: "/",
-    component: require("./pages/Landing").default,
-    meta: {
-      title: "Landing Page"
-    }
-  },
-  {
-    name: "login",
-    path: "/login",
-    component: require("./pages/Login").default,
-    meta: {
-      title: "Login Page"
-    }
-  },
-  {
-    name: "projects",
-    path: "/projects",
-    component: require("./pages/Projects").default,
-    meta: {
-      title: "Projects Page",
-      loginRequired: true
-    }
-  },
+    component: require("./layout/Main").default,
+    children: [
+      {
+        name: "landing",
+        path: "",
+        component: require("./pages/Landing").default,
+        meta: {
+          title: "Landing Page"
+        }
+      },
+      {
+        name: "login",
+        path: "login",
+        component: require("./pages/Login").default,
+        meta: {
+          title: "Login Page"
+        }
+      },
+      {
+        name: "projects",
+        path: "projects",
+        component: require("./pages/Projects").default,
+        meta: {
+          title: "Projects Page",
+          loginRequired: true
+        }
+      },
+    ]
+  }
 ];
 
 const router = new VueRouter({ routes });

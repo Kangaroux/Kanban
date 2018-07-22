@@ -9,9 +9,8 @@ function createStore() {
   return new Vuex.Store({
     state: {
       loggedIn: false,
+      projects: null,
       user: null,
-
-      projects: [],
     },
     mutations: {
       login(state, user) {
@@ -37,10 +36,23 @@ function createStore() {
         });
       },
 
+      /* Logs the user out */
+      logout({ commit, state }) {
+        if(!state.loggedIn)
+          return;
+
+        Axios.delete(API.session)
+        .then((resp) => commit("logout"))
+        .catch((err) => console.error(err));
+      },
+
       /* Loads the user's session */
-      getSession({ commit }) {
+      loadSession({ commit }) {
         Axios.get(API.session)
-        .then((resp) => commit("login", Transform.user(resp.data.user)))
+        .then((resp) => {
+          if(resp.data.logged_in)
+            commit("login", Transform.user(resp.data.user))
+        })
         .catch((err) => console.error(err));
       }
     }

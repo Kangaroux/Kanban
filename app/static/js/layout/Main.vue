@@ -1,5 +1,8 @@
 <template>
-  <AppNav />
+  <div>
+    <AppNav />
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>

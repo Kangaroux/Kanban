@@ -17,4 +17,4 @@ const app = new Vue({
   store
 });
 
-store.dispatch("getSession");
+store.dispatch("loadSession");

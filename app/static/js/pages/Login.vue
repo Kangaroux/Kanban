@@ -1,6 +1,5 @@
 <template>
   <div>
-    <router-link :to="{ name: 'landing' }">Landing page</router-link>
     <h1>Login page</h1>
     <p v-if="formError">ERROR: {{ formError }}</p>
     <form @submit.prevent="login">
