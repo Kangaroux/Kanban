@@ -15,6 +15,7 @@ const pageTitles = {
 
 const router = new VueRouter({ routes });
 
+// Set the page title when the route changes
 router.afterEach((to, from) => {
   document.title = pageTitles[to.name];
 });

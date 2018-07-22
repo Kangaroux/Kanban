@@ -2,7 +2,7 @@ import Axios from "axios";
 import Promise from "promise";
 import Qs from "qs";
 import Vuex from "vuex";
-import Util from "./util";
+import Transform from "./transform";
 
 
 function createStore() {
@@ -25,6 +25,7 @@ function createStore() {
       }
     },
     actions: {
+      /* Tries to log the user in and if successful sets the user in the store */
       login({ commit }, { email, password }) {
         return new Promise((resolve, reject) => {
           Axios.post(API.session, Qs.stringify({ email, password }))
@@ -32,13 +33,14 @@ function createStore() {
             commit("login", resp.data.user);
             resolve();
           })
-          .catch((err) => reject(Util.formError(err)));
+          .catch((err) => reject(Transform.form(err)));
         });
       },
 
+      /* Loads the user's session */
       getSession({ commit }) {
         Axios.get(API.session)
-        .then((resp) => commit("login", resp.data.user))
+        .then((resp) => commit("login", Transform.user(resp.data.user)))
         .catch((err) => console.error(err));
       }
     }

@@ -30,7 +30,7 @@
       };
     },
     methods: {
-      login: function() {
+      login() {
         this.$store.dispatch("login", {
           email: this.email,
           password: this.password

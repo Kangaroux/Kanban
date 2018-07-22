@@ -39,7 +39,7 @@ class User(BaseModel, AbstractUser):
   # The user logs in using their email
   USERNAME_FIELD = "email"
   REQUIRED_FIELDS = ["first_name"]
-  SERIALIZE_FIELDS = ("id", "first_name", "last_name", "email", "date_created")
+  SERIALIZE_FIELDS = ("id", "first_name", "last_name", "email", "date_created", "date_updated")
 
   # Users have a display name for each project
   username = None

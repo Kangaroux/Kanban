@@ -43,7 +43,6 @@ class SessionAPI(APIView):
 
 
 class UserAPI(APIView):
-
   @staticmethod
   def get_user_data(user):
     """ Serializes the user and returns it as a dict """
