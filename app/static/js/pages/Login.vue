@@ -36,8 +36,7 @@
           password: this.password
         })
         .then(() => {
-          this.formError = "";
-          this.fieldErrors = {};
+          this.$router.push({ path: "projects" });
         })
         .catch((error) => {
           this.formError = error.formError;

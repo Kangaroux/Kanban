@@ -2,22 +2,48 @@ import VueRouter from "vue-router";
 
 
 const routes = [
-  { name: "landing", path: "/", component: require("./pages/Landing").default },
-  { name: "login", path: "/login", component: require("./pages/Login").default },
-  { name: "projects", path: "/projects", component: require("./pages/Projects").default },
+  {
+    name: "landing",
+    path: "/",
+    component: require("./pages/Landing").default,
+    meta: {
+      title: "Landing Page"
+    }
+  },
+  {
+    name: "login",
+    path: "/login",
+    component: require("./pages/Login").default,
+    meta: {
+      title: "Login Page"
+    }
+  },
+  {
+    name: "projects",
+    path: "/projects",
+    component: require("./pages/Projects").default,
+    meta: {
+      title: "Projects Page",
+      loginRequired: true
+    }
+  },
 ];
-
-const pageTitles = {
-  landing: "Landing Page",
-  login: "Login Page",
-  projects: "Projects Page",
-};
 
 const router = new VueRouter({ routes });
 
-// Set the page title when the route changes
+router.beforeEach((to, from, next) => {
+  // Redirect the user to the login page if they try to visit a page and aren't
+  // logged in
+  if(to.meta.loginRequired && !window.store.loggedIn) {
+    next({ name: "login" });
+  } else {
+    next();
+  }
+});
+
 router.afterEach((to, from) => {
-  document.title = pageTitles[to.name];
+  // Set the page title when the route changes
+  document.title = to.meta.title;
 });
 
 export default router;

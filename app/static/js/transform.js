@@ -21,8 +21,6 @@ export default {
   user(obj) {
     let newObj = Object.assign({}, obj);
 
-    console.log(newObj);
-
     if(newObj.date_created)
       newObj.date_created = new Date(newObj.date_created);
 

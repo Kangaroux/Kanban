@@ -10,7 +10,7 @@ Vue.use(VueRouter);
 import router from "./routes";
 import createStore from "./store";
 
-const store = createStore();
+window.store = createStore();
 const app = new Vue({
   el: "#app",
   router,
