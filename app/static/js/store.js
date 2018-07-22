@@ -29,7 +29,7 @@ function createStore() {
         return new Promise((resolve, reject) => {
           Axios.post(API.session, Qs.stringify({ email, password }))
           .then((resp) => {
-            commit("login", resp.data.user);
+            commit("login", Transform.user(resp.data.user));
             resolve();
           })
           .catch((err) => reject(Transform.form(err)));

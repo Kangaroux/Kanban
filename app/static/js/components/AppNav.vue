@@ -7,9 +7,15 @@
       <li v-if="!$store.state.loggedIn">
         <router-link :to="{ name: 'login' }">Log in</router-link>
       </li>
-      <li v-if="$store.state.loggedIn">
-        <a @click.prevent="logout" href="#">Log out</a>
-      </li>
+
+      <template v-if="$store.state.loggedIn">
+        <li>
+          <router-link :to="{ name: 'projects' }">Projects</router-link>
+        </li>
+        <li>
+          <a @click.prevent="logout" href="#">Log out</a>
+        </li>
+      </template>
     </ul>
   </div>
 </template>
