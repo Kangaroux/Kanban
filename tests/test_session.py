@@ -1,6 +1,6 @@
 from django.shortcuts import reverse
 
-from tests import TestCase
+from . import TestCase
 
 
 class TestSessionAPI(TestCase):
@@ -12,7 +12,7 @@ class TestSessionAPI(TestCase):
 
   def test_login(self):
     # Missing fields
-    resp = self.client.post(reverse("user:auth"))
+    resp = self.client.post(reverse("user:session"))
 
     self.assertEqual(resp.status_code, 400)
     self.assertEqual(resp.json()["msg"], "Some fields are missing or incorrect.")
@@ -20,7 +20,7 @@ class TestSessionAPI(TestCase):
     self.assertTrue("password" in resp.json()["fields"])
 
     # Bad email
-    resp = self.client.post(reverse("user:auth"), {
+    resp = self.client.post(reverse("user:session"), {
       "email": "bad@email.com",
       "password": "password123"
     })
@@ -29,7 +29,7 @@ class TestSessionAPI(TestCase):
     self.assertEqual(resp.json()["msg"], "Email or password is incorrect.")
 
     # Bad password
-    resp = self.client.post(reverse("user:auth"), {
+    resp = self.client.post(reverse("user:session"), {
       "email": self.u.email,
       "password": "badpassword"
     })
@@ -38,7 +38,7 @@ class TestSessionAPI(TestCase):
     self.assertEqual(resp.json()["msg"], "Email or password is incorrect.")
 
     # Success
-    resp = self.client.post(reverse("user:auth"), {
+    resp = self.client.post(reverse("user:session"), {
       "email": self.u.email,
       "password": self.u.raw_password
     })
@@ -49,5 +49,5 @@ class TestSessionAPI(TestCase):
   def test_logout(self):
     self.login(self.u)
     self.assertTrue("_auth_user_id" in self.client.session)
-    self.client.delete(reverse("user:auth"))
+    self.client.delete(reverse("user:session"))
     self.assertTrue("_auth_user_id" not in self.client.session)

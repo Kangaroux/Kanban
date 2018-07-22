@@ -1,6 +1,6 @@
 from django.db.utils import IntegrityError
 
-from tests import TestCase
+from . import TestCase
 from user.models import User
 
 
@@ -14,7 +14,8 @@ class TestUserModel(TestCase):
       "first_name": self.u.first_name,
       "last_name": self.u.last_name,
       "email": self.u.email,
-      "date_created": self.u.date_created.isoformat()
+      "date_created": self.u.date_created.isoformat(),
+      "date_updated": self.u.date_updated.isoformat(),
     })
 
   def test_unique_email(self):

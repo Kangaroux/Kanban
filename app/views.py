@@ -13,7 +13,7 @@ def csrf_handler(request, reason=""):
 # Dummy 500 error view
 class Dummy500View(APIView):
   def get(self, request):
-    raise Exception("")
+    raise Exception("Fake exception from the dummy 500 error view")
 
 # Dummy CSRF protected view
 class DummyCSRFView(APIView):

@@ -1,7 +1,7 @@
 from django.shortcuts import reverse
 
 from project.models import Board
-from tests import TestCase
+from . import TestCase
 
 
 class TestBoardAPI(TestCase):

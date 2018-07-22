@@ -1,6 +1,6 @@
 from django.shortcuts import reverse
 
-from tests import TestCase
+from . import TestCase
 from user.models import User
 
 
