@@ -1,25 +1,31 @@
 <template>
   <div>
     <h1>Login page</h1>
-    <p v-if="formError">ERROR: {{ formError }}</p>
-    <form @submit.prevent="login">
-      <div>
-        <input type="email" v-model="email" placeholder="email" />
+    <Form :formError="formError" :submit="login">
+      <TextInput
+        type="email"
+        v-model="email"
+        placeholder="email"
+        :fieldError="fieldErrors.email"
+        />
+      <TextInput
+        type="password"
+        v-model="password"
+        placeholder="password"
+        :fieldError="fieldErrors.password"
+        />
 
-        <p v-if="fieldErrors.email">ERROR: {{ fieldErrors.email }}</p>
-      </div>
-      <div>
-        <input type="password" v-model="password" placeholder="password" />
-
-        <p v-if="fieldErrors.password">ERROR: {{ fieldErrors.password }}</p>
-      </div>
       <input type="submit" value="Log in" />
-    </form>
+    </Form>
   </div>
 </template>
 
 <script>
+  import Form from "~/components/Form";
+  import TextInput from "~/components/TextInput";
+
   export default {
+    components: { Form, TextInput },
     data: () => {
       return {
         email: "",
