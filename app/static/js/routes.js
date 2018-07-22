@@ -40,7 +40,7 @@ const router = new VueRouter({ routes });
 router.beforeEach((to, from, next) => {
   // Redirect the user to the login page if they try to visit a page and aren't
   // logged in
-  if(to.meta.loginRequired && !window.store.loggedIn) {
+  if(to.meta.loginRequired && !window.store.state.loggedIn) {
     next({ name: "login" });
   } else {
     next();
