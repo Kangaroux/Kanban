@@ -26,6 +26,7 @@
 
   export default {
     components: { Form, TextInput },
+
     data: () => {
       return {
         email: "",
@@ -34,7 +35,9 @@
         fieldErrors: {},
       };
     },
+
     methods: {
+      /* Logs the user in and, if successful, redirects them to the projects page */
       login() {
         this.$store.dispatch("login", {
           email: this.email,

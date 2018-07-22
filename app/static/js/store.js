@@ -12,6 +12,7 @@ function createStore() {
       projects: null,
       user: null,
     },
+
     mutations: {
       login(state, user) {
         state.user = user;
@@ -23,6 +24,7 @@ function createStore() {
         state.loggedIn = false;
       }
     },
+
     actions: {
       /* Tries to log the user in and if successful sets the user in the store */
       login({ commit }, { email, password }) {
