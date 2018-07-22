@@ -8,8 +8,10 @@ import Util from "./util";
 function createStore() {
   return new Vuex.Store({
     state: {
-      loggedIn: APP.loggedIn,
-      user: APP.user
+      loggedIn: false,
+      user: null,
+
+      projects: [],
     },
     mutations: {
       login(state, user) {
@@ -30,10 +32,14 @@ function createStore() {
             commit("login", resp.data.user);
             resolve();
           })
-          .catch((err) => {
-            reject(Util.formError(err));
-          });
+          .catch((err) => reject(Util.formError(err)));
         });
+      },
+
+      getSession({ commit }) {
+        Axios.get(API.session)
+        .then((resp) => commit("login", resp.data.user))
+        .catch((err) => console.error(err));
       }
     }
   });

@@ -20,16 +20,9 @@
         user: "{% url 'user:user' %}"
       };
 
-      window.APP = {
-        loggedIn: {{ user.is_authenticated | json }},
-        user: {% if user.is_authenticated %}{{ user.serialize | json }}{% else %}null{% endif %}
-      };
+      window.APP = {};
 
       window.CSRF_TOKEN = "{{ csrf_token }}";
-
-      if(APP.user) {
-        APP.user.date_created = new Date(APP.user.date_created);
-      }
     </script>
     <script src="{% static 'vendor.js' %}"></script>
     <script src="{% static 'app.js' %}"></script>
