@@ -6,6 +6,9 @@ from . import api
 app_name = "project"
 
 urlpatterns = [
+  path("projects/", api.ProjectAPI.as_view(), name="project"),
+  path("projects/<int:project_id>", api.ProjectAPI.as_view(), name="project"),
+
   path("boards/", api.BoardAPI.as_view(), name="board"),
   path("boards/<int:board_id>/", include([
     path("", api.BoardAPI.as_view(), name="board"),

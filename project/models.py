@@ -3,11 +3,18 @@ from django.db import models
 from lib.models import BaseModel, ListField
 
 
+class Project(BaseModel):
+  name = models.CharField(max_length=50)
+  description = models.TextField(max_length=200, blank=True)
+  created_by = models.ForeignKey("user.User", on_delete=models.CASCADE)
+  members = models.ManyToManyField("user.User", related_name="members")
+
+
 class Board(BaseModel):
   name = models.CharField(max_length=50)
   description = models.TextField(max_length=200, blank=True)
   created_by = models.ForeignKey("user.User", on_delete=models.CASCADE)
-  owner = models.ForeignKey("user.User", related_name="owner", on_delete=models.CASCADE)
+  project = models.ForeignKey("Project", on_delete=models.CASCADE)
 
   # JSON array of column ids so they can be ordered
   column_order = ListField()

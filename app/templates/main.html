@@ -15,6 +15,8 @@
 
     <script type="text/javascript">
       window.API = {
+        board: "{% url 'project:board' %}",
+        project: "{% url 'project:project' %}",
         session: "{% url 'user:session' %}",
         user: "{% url 'user:user' %}"
       };

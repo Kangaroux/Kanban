@@ -25,9 +25,18 @@ const routes = [
       {
         name: "projects",
         path: "projects",
-        component: require("./pages/Projects").default,
+        component: require("./pages/Projects/List").default,
         meta: {
           title: "Projects Page",
+          loginRequired: true
+        }
+      },
+      {
+        name: "createProject",
+        path: "projects/create",
+        component: require("./pages/Projects/Create").default,
+        meta: {
+          title: "Create Project Page",
           loginRequired: true
         }
       },

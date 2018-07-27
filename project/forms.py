@@ -1,6 +1,16 @@
 from django import forms
 
-from .models import Board, Column, Task
+from .models import Board, Column, Project,Task
+
+
+class BaseProjectForm(forms.ModelForm):
+  class Meta:
+    model = Project
+    fields = ("name", "description")
+
+
+class CreateProjectForm(BaseProjectForm):
+  pass
 
 
 class BaseBoardForm(forms.ModelForm):

@@ -9,11 +9,19 @@ function createStore() {
   return new Vuex.Store({
     state: {
       loggedIn: false,
-      projects: null,
+      projects: [],
       user: null,
     },
 
     mutations: {
+      addProject(state, project) {
+        state.projects.push(project)
+      },
+
+      addProjects(state, projects) {
+        state.projects.concat(projects);
+      },
+
       login(state, user) {
         state.user = user;
         state.loggedIn = true;
@@ -56,6 +64,33 @@ function createStore() {
             commit("login", Transform.user(resp.data.user))
         })
         .catch((err) => console.error(err));
+      },
+
+      /* Creates a new project */
+      createProject({ commit }, { name, description }) {
+        return new Promise((resolve, reject) => {
+          Axios.post(API.project, Qs.stringify({ name, description }))
+          .then((resp) => {
+            commit("addProject", Transform.project(resp.data.project));
+            resolve();
+          })
+          .catch((err) => reject(Transform.form(err)));
+        });
+      },
+
+      /* Gets all projects the current user is a member of */
+      getAllProjects({ commit }) {
+        return new Promise((resolve, reject) => {
+          Axios.get(API.project)
+          .then((resp) => {
+            commit("addProjects", Transform.project(resp.data.projects));
+            resolve();
+          })
+          .catch((err) => {
+            console.error(err);
+            reject();
+          });
+        });
       }
     }
   });

@@ -27,7 +27,7 @@
   export default {
     components: { Form, TextInput },
 
-    data: () => {
+    data() {
       return {
         email: "",
         password: "",
@@ -46,9 +46,9 @@
         .then(() => {
           this.$router.push({ path: "projects" });
         })
-        .catch((error) => {
-          this.formError = error.formError;
-          this.fieldErrors = error.fieldErrors;
+        .catch((err) => {
+          this.formError = err.formError;
+          this.fieldErrors = err.fieldErrors;
         });
       }
     }
