@@ -9,17 +9,23 @@ function createStore() {
   return new Vuex.Store({
     state: {
       loggedIn: false,
-      projects: [],
+      projects: {},
       user: null,
+      users: {}
     },
 
     mutations: {
       addProject(state, project) {
-        state.projects.push(project)
+        state.projects[project.id] = project;
       },
 
       addProjects(state, projects) {
-        state.projects.concat(projects);
+        for(let project of projects)
+          state.projects[project.id] = project;
+      },
+
+      addUser(state, user) {
+        state.users[user.id] = user;
       },
 
       login(state, user) {
@@ -56,12 +62,18 @@ function createStore() {
         .catch((err) => console.error(err));
       },
 
-      /* Loads the user's session */
-      loadSession({ commit }) {
+      /* Loads the user's session. This checks if the user is logged in and, if
+      they are, grabs their user data and also preloads some project metadata
+      */
+      loadSession({ commit, dispatch }) {
         Axios.get(API.session)
         .then((resp) => {
-          if(resp.data.logged_in)
-            commit("login", Transform.user(resp.data.user))
+          if(resp.data.logged_in) {
+            dispatch("getUser", { userId: resp.data.user_id })
+            .then((user) => {
+              commit("login", user);
+            });
+          }
         })
         .catch((err) => console.error(err));
       },
@@ -85,6 +97,22 @@ function createStore() {
           .then((resp) => {
             commit("addProjects", Transform.project(resp.data.projects));
             resolve();
+          })
+          .catch((err) => {
+            console.error(err);
+            reject();
+          });
+        });
+      },
+
+      /* Gets information about a user */
+      getUser({ commit }, { userId }) {
+        return new Promise((resolve, reject) => {
+          Axios.get(API.user + userId)
+          .then((resp) => {
+            const user = Transform.user(resp.data.user);
+            commit("addUser", user);
+            resolve(user);
           })
           .catch((err) => {
             console.error(err);
