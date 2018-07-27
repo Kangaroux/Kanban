@@ -1,4 +1,4 @@
-from .forms import CreateBoardForm, CreateColumnForm
+from .forms import CreateBoardForm, CreateColumnForm, CreateProjectForm
 from .models import Board, Column, Project, Task
 from lib.views import APIView, LoginRequiredMixin, MissingError
 
