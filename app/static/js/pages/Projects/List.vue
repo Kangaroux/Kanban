@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Projects page</h1>
-    <router-link :to="{ name: 'createProject' }">Create project</router-link>
+    <router-link :to="{ name: 'projects:create' }">Create project</router-link>
 
     <p v-if="!$store.projects">No projects</p>
     <ul v-else>

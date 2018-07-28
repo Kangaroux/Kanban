@@ -2,6 +2,7 @@ import VueRouter from "vue-router";
 
 
 const routes = [
+  // Root level
   {
     path: "/",
     component: require("./layout/Main").default,
@@ -22,18 +23,26 @@ const routes = [
           title: "Login Page"
         }
       },
+    ],
+  },
+
+  // Projects
+  {
+    path: "/projects",
+    component: require("./layout/Main").default,
+    children: [
       {
         name: "projects",
-        path: "projects",
+        path: "",
         component: require("./pages/Projects/List").default,
         meta: {
           title: "Projects Page",
           loginRequired: true
-        }
+        },
       },
       {
-        name: "createProject",
-        path: "projects/create",
+        name: "projects:create",
+        path: "create",
         component: require("./pages/Projects/Create").default,
         meta: {
           title: "Create Project Page",
