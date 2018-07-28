@@ -2,7 +2,7 @@
   <div>
     <h1>Create project page</h1>
 
-    <Form :formError="formError" :submit="createProject">
+    <Form :formError="formError" @submit="createProject">
       <TextInput
         v-model="name"
         placeholder="name"

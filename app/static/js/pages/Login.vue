@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Login page</h1>
-    <Form :formError="formError" :submit="login">
+    <Form :formError="formError" @submit="login">
       <TextInput
         type="email"
         v-model="email"

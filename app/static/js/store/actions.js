@@ -5,13 +5,17 @@ import Transform from "./transform";
 
 
 export default {
-  /* Tries to log the user in and if successful sets the user in the store */
+  /* Verifies the user's credentials and then loads the user's data */
   login({ commit }, { email, password }) {
     return new Promise((resolve, reject) => {
       Axios.post(API.session, Qs.stringify({ email, password }))
       .then((resp) => {
         commit("login", Transform.user(resp.data.user));
-        resolve();
+
+        // Load the user's data
+        dispatch("loadAppData")
+        .then((resp) => resolve(resp))
+        .catch((err) => reject(err));
       })
       .catch((err) => reject(Transform.form(err)));
     });
@@ -37,20 +41,17 @@ export default {
     });
   },
 
-  /* Loads the user's session. This checks if the user is logged in and, if
-  they are, grabs their user data and also preloads some project metadata
-  */
+  /* Checks if the user is logged in and then loads their data */
   loadSession({ commit, dispatch }) {
     return new Promise((resolve, reject) => {
       Axios.get(API.session)
       .then((resp) => {
         if(resp.data.logged_in) {
-          dispatch("getUser", { userId: resp.data.user_id })
-          .then((user) => {
-            commit("login", user);
-            dispatch("getAllProjects");
-            resolve();
-          });
+          commit("login", Transform.user(resp.data.user));
+
+          dispatch("loadAppData")
+          .then((resp) => resolve(resp))
+          .catch((err) => reject(err));
         } else {
           resolve();
         }
@@ -60,6 +61,13 @@ export default {
         reject();
       });
     });
+  },
+
+  /* Loads the current user and their projects */
+  loadAppData({ commit, dispatch }) {
+    return Promise.all([
+      dispatch("getAllProjects")
+    ]);
   },
 
   /* Creates a new project */

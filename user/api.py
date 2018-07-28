@@ -9,10 +9,10 @@ class SessionAPI(APIView):
   """ Session API for logging in and logging out """
 
   def get(self, request):
-    """ Returns the current user's ID if they are logged in """
+    """ Returns the current user if they are logged in """
     return self.ok(data={
       "logged_in": request.user.is_authenticated,
-      "user_id": request.user.id
+      **UserAPI.get_user_data(request.user)
     })
 
   def post(self, request):
@@ -30,7 +30,8 @@ class SessionAPI(APIView):
 
     login(request, user)
 
-    return self.ok(data={ "user": user.serialize() })
+    # Return the user info for convenience instead of calling the user API
+    return self.ok(data=UserAPI.get_user_data(user))
 
   def delete(self, request):
     """ Logs a user out """
@@ -40,13 +41,17 @@ class SessionAPI(APIView):
 
 
 class UserAPI(APIView):
+  @classmethod
+  def get_user_data(self, user):
+    return {
+      "user": user.serialize()
+    }
+
   def get(self, request, user_id):
     """ Returns a user's info """
     user = self.get_or_404(User, user_id)
 
-    return self.ok(data={
-      "user": user.serialize()
-    })
+    return self.ok(data=self.get_user_data(user))
 
   def post(self, request):
     """ Adds a new user """
