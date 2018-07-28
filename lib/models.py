@@ -2,6 +2,7 @@ import json
 from datetime import datetime
 from itertools import chain
 
+from django.core import serializers
 from django.db import models
 from django.utils import timezone
 
@@ -35,19 +36,17 @@ class Serializable:
   # will be serialized
   SERIALIZE_FIELDS = ()
 
-  def serialize(self, only=None, exclude=None):
+  @classmethod
+  def serialize(cls, objects, only=None, exclude=None):
     if only and exclude:
       raise ValueError("Both `only` and `exclude` cannot be used for serializing")
 
-    if self.SERIALIZE_FIELDS:
-      fields = set(self.SERIALIZE_FIELDS)
+    if cls.SERIALIZE_FIELDS:
+      fields = set(cls.SERIALIZE_FIELDS)
     else:
-      # This monstrosity is brought to you by Django 2.0
       fields = set(
-          [ f.name for f in self._meta.get_fields() if hasattr(f, "attname") ]
-        )
-
-    data = {}
+        [ f.name for f in cls._meta.get_fields() if hasattr(f, "attname") ]
+      )
 
     if only:
       fields &= set(only)
@@ -55,17 +54,17 @@ class Serializable:
     if exclude:
       fields -= set(exclude)
 
-    for f in fields:
-      val = getattr(self, f)
+    try:
+      data = json.loads(serializers.serialize("json", objects, fields=fields))
 
-      if isinstance(val, datetime):
-        data[f] = val.isoformat()
-      elif isinstance(val, (list, int, float, bool)):
-        data[f] = val
-      elif isinstance(val, models.Model):
-        data[f] = val.id
-      else:
-        data[f] = str(val)
+      for instance in range(len(data)):
+        data[instance]["fields"]["id"] = data[instance]["pk"]
+        data[instance] = data[instance]["fields"]
+    except TypeError:
+      # This handles the case where `objects` is a single object
+      data = json.loads(serializers.serialize("json", [objects], fields=fields))[0]
+      data["fields"]["id"] = data["pk"]
+      data = data["fields"]
 
     return data
 
