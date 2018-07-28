@@ -8,7 +8,7 @@ Vue.use(Vuex);
 Vue.use(VueRouter);
 
 import router from "./routes";
-import createStore from "./store";
+import createStore from "./store/store";
 
 window.store = createStore();
 const app = new Vue({
