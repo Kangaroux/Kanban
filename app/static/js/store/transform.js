@@ -17,6 +17,19 @@ export default {
     };
   },
 
+  /* Normalizes a project returned from the API */
+  project(obj) {
+    let newObj = Object.assign({}, obj);
+
+    if(newObj.date_created)
+      newObj.date_created = new Date(newObj.date_created);
+
+    if(newObj.date_updated)
+      newObj.date_updated = new Date(newObj.date_updated);
+
+    return newObj;
+  },
+
   /* Normalizes a user returned from the API */
   user(obj) {
     let newObj = Object.assign({}, obj);

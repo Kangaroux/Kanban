@@ -48,6 +48,7 @@ export default {
           dispatch("getUser", { userId: resp.data.user_id })
           .then((user) => {
             commit("login", user);
+            dispatch("getAllProjects");
             resolve();
           });
         } else {
@@ -73,12 +74,13 @@ export default {
     });
   },
 
-  /* Gets all projects the current user is a member of */
+  /* Gets all projects the current user has access to */
   getAllProjects({ commit }) {
     return new Promise((resolve, reject) => {
       Axios.get(API.project)
       .then((resp) => {
-        commit("addProjects", Transform.project(resp.data.projects));
+        const projects = resp.data.projects.map((k) => Transform.project(k));
+        commit("addProjects", projects);
         resolve();
       })
       .catch((err) => {
