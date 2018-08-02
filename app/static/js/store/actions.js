@@ -48,11 +48,13 @@ export default {
       .then((resp) => {
         if(resp.data.logged_in) {
           commit("login", Transform.user(resp.data.user));
+          commit("ready");
 
           dispatch("loadAppData")
           .then((resp) => resolve(resp))
           .catch((err) => reject(err));
         } else {
+          commit("ready");
           resolve();
         }
       })
@@ -75,8 +77,9 @@ export default {
     return new Promise((resolve, reject) => {
       Axios.post(API.project, Qs.stringify({ name, description }))
       .then((resp) => {
-        commit("addProject", Transform.project(resp.data.project));
-        resolve();
+        const project = Transform.project(resp.data.project);
+        commit("addProject", project);
+        resolve(project);
       })
       .catch((err) => reject(Transform.form(err)));
     });

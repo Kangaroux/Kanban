@@ -10,10 +10,12 @@ class SessionAPI(APIView):
 
   def get(self, request):
     """ Returns the current user if they are logged in """
-    return self.ok({
-      "logged_in": request.user.is_authenticated,
-      **UserAPI.get_user_data(request.user)
-    })
+    data = { "logged_in": request.user.is_authenticated }
+
+    if request.user.is_authenticated:
+      data.update(UserAPI.get_user_data(request.user))
+
+    return self.ok(data)
 
   def post(self, request):
     """ Logs a user in """

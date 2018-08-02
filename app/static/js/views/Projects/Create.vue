@@ -40,7 +40,7 @@
           name: this.name,
           description: this.description
         })
-        .then(() => this.$router.push({ path: "projects" }))
+        .then(() => this.$router.push({ name: "projects" }))
         .catch((err) => {
           this.formError = err.formError;
           this.fieldErrors = err.fieldErrors;

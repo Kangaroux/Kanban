@@ -6,7 +6,9 @@
     <p v-if="!$store.state.projects">No projects</p>
     <ul v-else>
       <li v-for="project in $store.state.projects">
-        {{ project.name }}
+        <router-link :to="{ name: 'projects:view', params: { id: project.id } }">
+          {{ project.name }}
+        </router-link>
       </li>
     </ul>
   </div>

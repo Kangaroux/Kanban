@@ -10,7 +10,7 @@ const routes = [
       {
         name: "landing",
         path: "",
-        component: require("./pages/Landing").default,
+        component: require("./views/Landing").default,
         meta: {
           title: "Landing Page"
         }
@@ -18,7 +18,7 @@ const routes = [
       {
         name: "login",
         path: "login",
-        component: require("./pages/Login").default,
+        component: require("./views/Login").default,
         meta: {
           title: "Login Page"
         }
@@ -34,7 +34,7 @@ const routes = [
       {
         name: "projects",
         path: "",
-        component: require("./pages/Projects/List").default,
+        component: require("./views/Projects/List").default,
         meta: {
           title: "Projects Page",
           loginRequired: true
@@ -43,11 +43,21 @@ const routes = [
       {
         name: "projects:create",
         path: "create",
-        component: require("./pages/Projects/Create").default,
+        component: require("./views/Projects/Create").default,
         meta: {
           title: "Create Project Page",
           loginRequired: true
         }
+      },
+      {
+        name: "projects:view",
+        path: ":id",
+        props: true,
+        component: require("./views/Projects/View").default,
+        meta: {
+          title: "View Project Page",
+          loginRequired: true
+        },
       },
     ]
   }
@@ -58,7 +68,7 @@ const router = new VueRouter({ routes });
 router.beforeEach((to, from, next) => {
   // Redirect the user to the login page if they try to visit a page and aren't
   // logged in
-  if(to.meta.loginRequired && !window.store.state.loggedIn) {
+  if(to.meta.loginRequired && window.store.state.ready && !window.store.state.loggedIn) {
     next({ name: "login" });
   } else {
     next();
