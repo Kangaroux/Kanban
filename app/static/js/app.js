@@ -12,9 +12,16 @@ import createStore from "./store/store";
 
 window.store = createStore();
 const app = new Vue({
-  el: "#app",
   router,
   store
 });
 
-store.dispatch("loadSession");
+// Load the user's session and destroy the loading placeholder
+store.dispatch("loadSession")
+.then(() => {
+  const $el = document.getElementById("app");
+  $el.innerHTML = "<router-view></router-view>";
+
+  document.getElementById("loading-placeholder").remove();
+  app.$mount($el);
+});

@@ -1,11 +1,7 @@
 <template>
   <div>
-    <Loading v-if="!$store.state.ready.session" />
-
-    <template v-else>
-      <AppNav />
-      <router-view></router-view>
-    </template>
+    <AppNav />
+    <router-view></router-view>
   </div>
 </template>
 

@@ -49,12 +49,10 @@ export default {
         if(resp.data.logged_in) {
           commit("login", Transform.user(resp.data.user));
           commit("ready", "session");
-
-          dispatch("loadAppData")
-          .then((resp) => resolve(resp))
-          .catch((err) => reject(err));
+          dispatch("loadAppData");
+          resolve();
         } else {
-          commit("ready");
+          commit("ready", "session");
           resolve();
         }
       })
