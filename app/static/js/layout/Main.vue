@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loading v-if="!$store.state.ready" />
+    <Loading v-if="!$store.state.ready.session" />
 
     <template v-else>
       <AppNav />

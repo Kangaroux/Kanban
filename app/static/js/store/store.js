@@ -7,10 +7,15 @@ function createStore() {
   return new Vuex.Store({
     state: {
       loggedIn: false,
-      ready: false,
-      projects: {},
       user: null,
-      users: {}
+
+      projects: {},
+      users: {},
+
+      ready: {
+        session: false,
+        projects: false,
+      }
     },
 
     mutations: {
@@ -38,8 +43,11 @@ function createStore() {
         state.loggedIn = false;
       },
 
-      ready(state) {
-        state.ready = true;
+      ready(state, component) {
+        if(state.ready[component] === undefined)
+          console.error("Unknown component marked as ready:", component);
+
+        Vue.set(state.ready, component, true);
       }
     },
 

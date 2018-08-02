@@ -48,7 +48,7 @@ export default {
       .then((resp) => {
         if(resp.data.logged_in) {
           commit("login", Transform.user(resp.data.user));
-          commit("ready");
+          commit("ready", "session");
 
           dispatch("loadAppData")
           .then((resp) => resolve(resp))
@@ -92,6 +92,7 @@ export default {
       .then((resp) => {
         const projects = resp.data.projects.map((k) => Transform.project(k));
         commit("addProjects", projects);
+        commit("ready", "projects");
         resolve();
       })
       .catch((err) => {
