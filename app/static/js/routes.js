@@ -18,9 +18,17 @@ const routes = [
       {
         name: "login",
         path: "login",
-        component: require("./views/Login").default,
+        component: require("./views/Account/Login").default,
         meta: {
-          title: "Login Page"
+          title: "Log in Page"
+        }
+      },
+      {
+        name: "logout",
+        path: "logout",
+        component: require("./views/Account/Logout").default,
+        meta: {
+          title: "Log out Page"
         }
       },
     ],

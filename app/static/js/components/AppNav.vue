@@ -23,10 +23,9 @@
 <script>
   export default {
     methods: {
-      /* Logs the user out and redirects them back to the login page */
       logout() {
-        this.$store.dispatch("logout");
-        this.$router.push({ name: "login" });
+        this.$store.dispatch("logout")
+        .then(() => this.$router.push({ name: "logout" }));
       }
     }
   }
