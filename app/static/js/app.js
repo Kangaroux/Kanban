@@ -16,12 +16,18 @@ const app = new Vue({
   store
 });
 
-// Load the user's session and destroy the loading placeholder
+// Load the user's session
 store.dispatch("loadSession")
 .then(() => {
+  // If the user isn't logged in but is trying to view a restricted page then
+  // send them back to the login
+  if(router.currentRoute.meta.loginRequired && !store.state.loggedIn)
+    router.push({ name: "login" });
+
   const $el = document.getElementById("app");
   $el.innerHTML = "<router-view></router-view>";
 
+  // Destroy the loading spinner and mount the app
   document.getElementById("loading-placeholder").remove();
   app.$mount($el);
 });
