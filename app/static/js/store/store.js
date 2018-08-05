@@ -24,8 +24,12 @@ function createStore() {
       },
 
       addProjects(state, projects) {
+        let newProjects = {};
+
         for(let project of projects)
-          Vue.set(state.projects, project.id, project);
+          newProjects[project.id] = project;
+
+        state.projects = Object.assign({}, state.projects, newProjects);
       },
 
       addUser(state, user) {
@@ -36,11 +40,15 @@ function createStore() {
         Vue.set(state.users, user.id, user);
         state.user = user;
         state.loggedIn = true;
+
+        this.commit("ready", "session");
       },
 
       logout(state) {
         state.user = null;
         state.loggedIn = false;
+        state.users = {};
+        state.projects = {};
       },
 
       ready(state, component) {

@@ -6,16 +6,13 @@ import Transform from "./transform";
 
 export default {
   /* Verifies the user's credentials and then loads the user's data */
-  login({ commit }, { email, password }) {
+  login({ commit, dispatch }, { email, password }) {
     return new Promise((resolve, reject) => {
       Axios.post(API.session, Qs.stringify({ email, password }))
       .then((resp) => {
         commit("login", Transform.user(resp.data.user));
-
-        // Load the user's data
-        dispatch("loadAppData")
-        .then((resp) => resolve(resp))
-        .catch((err) => reject(err));
+        dispatch("loadAppData");
+        resolve();
       })
       .catch((err) => reject(Transform.form(err)));
     });
@@ -41,20 +38,17 @@ export default {
     });
   },
 
-  /* Checks if the user is logged in and then loads their data */
-  loadSession({ commit, dispatch }) {
+  /* Retrieves the user's current active session (if there is one) */
+  getCurrentSession({ commit, dispatch }) {
     return new Promise((resolve, reject) => {
       Axios.get(API.session)
       .then((resp) => {
         if(resp.data.logged_in) {
           commit("login", Transform.user(resp.data.user));
-          commit("ready", "session");
           dispatch("loadAppData");
-          resolve();
-        } else {
-          commit("ready", "session");
-          resolve();
         }
+
+        resolve();
       })
       .catch((err) => {
         console.error(err);

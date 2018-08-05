@@ -17,7 +17,7 @@ const app = new Vue({
 });
 
 // Load the user's session
-store.dispatch("loadSession")
+store.dispatch("getCurrentSession")
 .then(() => {
   // If the user isn't logged in but is trying to view a restricted page then
   // send them back to the login

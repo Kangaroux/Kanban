@@ -43,9 +43,7 @@
           email: this.email,
           password: this.password
         })
-        .then(() => {
-          this.$router.push({ path: "projects" });
-        })
+        .then(() => this.$router.push({ path: "projects" }))
         .catch((err) => {
           this.formError = err.formError;
           this.fieldErrors = err.fieldErrors;
