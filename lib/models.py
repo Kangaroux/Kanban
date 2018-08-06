@@ -26,7 +26,10 @@ class ListField(models.TextField):
     if not value:
       return "[]"
 
-    return json.dumps(value, separators=(',', ':'))
+    return json.dumps(value, separators=(',',))
+
+  def value_to_string(self, obj):
+    return self.value_from_object(obj)
 
 
 class Serializable:
