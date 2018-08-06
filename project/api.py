@@ -8,11 +8,25 @@ class ProjectAPI(LoginRequiredMixin, APIView):
     """ Gets a single project by id or a collection of projects """
     if project_id is not None:
       project = self.get_or_404(Project, project_id)
-      return self.ok({ "project": Project.serialize(project) })
+      boards = Board.objects.filter(project=project).only("id")
+
+      data = { "project": Project.serialize(project) }
+      data["project"]["boards"] = [ board.id for board in boards ]
+
+      return self.ok(data)
 
     # TODO: Add appropriate filtering here
     projects = Project.objects.all()
-    return self.ok({ "projects": Project.serialize(projects) })
+    boards = Board.objects.filter(project__in=projects).only("id", "project_id")
+    data = { "projects": Project.serialize(projects) }
+
+    for project in data["projects"]:
+      project["boards"] = []
+
+    for board in boards:
+      data["projects"][board.project_id]["boards"].append(board.id)
+
+    return self.ok(data)
 
   def post(self, request):
     """ Creates a new project and returns it """
