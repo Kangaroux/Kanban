@@ -9,6 +9,7 @@ function createStore() {
       loggedIn: false,
       user: null,
 
+      boards: {},
       projects: {},
       users: {},
 
@@ -19,6 +20,10 @@ function createStore() {
     },
 
     mutations: {
+      addBoard(state, board) {
+        Vue.set(state.boards, board.id, board);
+      },
+
       addProject(state, project) {
         Vue.set(state.projects, project.id, project);
       },

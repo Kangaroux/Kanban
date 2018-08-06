@@ -30,6 +30,11 @@ export default {
     return newObj;
   },
 
+  /* Normalizes a board returned from the API */
+  board(obj) {
+    return this.dates(obj);
+  },
+
   /* Normalizes a project returned from the API */
   project(obj) {
     return this.dates(obj);

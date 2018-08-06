@@ -11,8 +11,9 @@ export default {
       Axios.post(API.session, Qs.stringify({ email, password }))
       .then((resp) => {
         commit("login", Transform.user(resp.data.user));
-        dispatch("loadAppData");
-        resolve();
+
+        dispatch("loadAppData")
+        .then(() => resolve());
       })
       .catch((err) => reject(Transform.form(err)));
     });
@@ -45,10 +46,12 @@ export default {
       .then((resp) => {
         if(resp.data.logged_in) {
           commit("login", Transform.user(resp.data.user));
-          dispatch("loadAppData");
-        }
 
-        resolve();
+          dispatch("loadAppData")
+          .then(() => resolve());
+        } else {
+          resolve();
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -71,7 +74,7 @@ export default {
       .then((resp) => {
         const project = Transform.project(resp.data.project);
         commit("addProject", project);
-        resolve(project);
+        resolve(project.id);
       })
       .catch((err) => reject(Transform.form(err)));
     });
@@ -102,6 +105,26 @@ export default {
         const user = Transform.user(resp.data.user);
         commit("addUser", user);
         resolve(user);
+      })
+      .catch((err) => {
+        console.error(err);
+        reject();
+      });
+    });
+  },
+
+  /* Loads data for a board */
+  loadBoard({ commit, state }, { boardId, force = false }) {
+    return new Promise((resolve, reject) => {
+      if(state.boards[boardId] != null && !force) {
+        resolve();
+        return;
+      }
+
+      Axios.get(API.board + boardId)
+      .then((resp) => {
+        commit("addBoard", Transform.board(resp.data.board));
+        resolve();
       })
       .catch((err) => {
         console.error(err);

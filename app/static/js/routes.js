@@ -60,7 +60,7 @@ const routes = [
       {
         name: "projects:view",
         path: ":id",
-        props: true,
+        props: (route) => ({ id: parseInt(route.params.id) }),
         component: require("./views/Projects/View").default,
         meta: {
           title: "View Project Page",
