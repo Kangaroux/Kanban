@@ -39,7 +39,7 @@ class ProjectAPI(LoginRequiredMixin, APIView):
     project = Project.objects.create(
       name=data["name"],
       description=data.get("description"),
-      created_by=request.user
+      created_by=request.user,
     )
 
     project.members.set([ request.user ])

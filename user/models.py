@@ -49,7 +49,7 @@ class User(BaseModel, AbstractUser):
   date_joined = None
 
   def __str__(self):
-    return "%s (%s)" % (self.username, self.email)
+    return "(%d) %s, %s (%s)" % (self.id, self.last_name, self.first_name, self.email)
 
   def __repr__(self):
     return "<User id=%r email=%r username=%r>" % (self.id, self.email, self.username)
