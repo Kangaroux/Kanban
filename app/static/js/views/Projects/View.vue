@@ -6,11 +6,18 @@
       <p>{{ project.description }}</p>
 
       <h2>Boards</h2>
+      <router-link :to="{ name: 'boards:create', params: { id: project.id } }">
+        Create New Board
+      </router-link>
       <p v-if="boards.length == 0">This project has no boards yet.</p>
       <ul v-else>
         <li v-for="board in boards">
           <span v-if="board == null">LOADING...</span>
-          <span v-else>{{ board.name }}</span>
+          <span v-else>
+            <router-link :to="{ name: 'boards:view', params: { id: board.id } }">
+              {{ board.name }}
+            </router-link>
+          </span>
         </li>
       </ul>
     </template>

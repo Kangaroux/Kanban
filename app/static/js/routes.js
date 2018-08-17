@@ -66,6 +66,34 @@ const routes = [
           title: "View Project Page",
           loginRequired: true
         },
+        children: [
+          {
+            name: "boards:create",
+            path: "boards/create",
+            component: require("./views/Boards/Create").default,
+            meta: {
+              title: "Create Board Page",
+              loginRequired: true
+            },
+          }
+        ]
+      },
+    ]
+  },
+
+  // Boards
+  {
+    path: "/boards",
+    component: require("./layout/Main").default,
+    children: [
+      {
+        name: "boards:view",
+        path: ":id",
+        props: (route) => ({ id: parseInt(route.params.id) }),
+        component: require("./views/Boards/View").default,
+        meta: {
+          title: "Landing Page"
+        }
       },
     ]
   }
